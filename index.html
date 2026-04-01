@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem MCU Yonasindo</title>
+    
+    <!-- Menggunakan Tailwind CSS untuk styling (Warna Hijau dll) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Animasi Transisi Halaman */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Menyembunyikan elemen secara default sebelum di-render */
+        .hidden-view { display: none !important; }
+        
+        /* Chatbot Scrollbar */
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col relative">
+
+    <!-- OVERLAY LOADING GLOBAL -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center hidden-view">
+        <div class="bg-white p-5 rounded-lg flex flex-col items-center">
+            <i class="fas fa-spinner fa-spin text-green-600 text-3xl mb-2"></i>
+            <p class="text-gray-700 font-medium">Memproses Data...</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="bg-green-700 text-white shadow-md sticky top-0 z-50 hidden-view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-3xl text-green-300 mr-2"></i>
+                    <span class="font-bold text-lg md:text-xl tracking-tight">MCU Yonasindo</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-4" id="nav-desktop-menu">
+                    <!-- Menu akan diisi oleh JavaScript berdasarkan Role -->
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-white hover:text-green-200 focus:outline-none">
+                        <i id="mobile-menu-icon" class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-green-800 pb-3 px-2 pt-2 space-y-1 hidden-view">
+            <!-- Menu mobile akan diisi oleh JavaScript -->
+        </div>
+    </nav>
+
+    <!-- AREA KONTEN UTAMA -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ==================== HALAMAN LOGIN ==================== -->
+        <div id="view-login" class="hidden-view fade-in flex flex-col justify-center py-12">
+            <div class="sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="flex justify-center">
+                    <div class="bg-green-600 p-4 rounded-full shadow-lg">
+                        <i class="fas fa-heartbeat text-4xl text-white"></i>
+                    </div>
+                </div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Portal MCU</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">LPK Yonasindo Intra Pratama</p>
+            </div>
+
+            <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-white py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-green-100">
+                    <div id="login-error" class="hidden-view bg-red-50 border-l-4 border-red-400 p-4 mb-6 flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-400 mr-2"></i>
+                        <p class="text-sm text-red-700" id="login-error-text"></p>
+                    </div>
+                    
+                    <form onsubmit="handleLogin(event)" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Username</label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input type="text" id="login-username" required class="pl-10 block w-full border-gray-300 rounded-md py-2 border focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="Masukkan username">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Password</label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400"></i>
+                                </div>
+                                <input type="password" id="login-password" required class="pl-10 block w-full border-gray-300 rounded-md py-2 border focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="Masukkan password">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" type="checkbox" class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Ingat akun saya</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">
+                            Masuk
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-600">Belum punya akun? <button onclick="navigateTo('register')" class="font-medium text-green-600 hover:text-green-500">Daftar di sini</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== HALAMAN REGISTER ==================== -->
+        <div id="view-register" class="hidden-view fade-in flex flex-col justify-center py-12">
+            <div class="sm:mx-auto sm:w-full sm:max-w-md">
+                <h2 class="text-center text-3xl font-extrabold text-gray-900">Pendaftaran Siswa</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">Buat akun untuk pengajuan MCU</p>
+            </div>
+
+            <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-white py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-green-100">
+                    <div id="reg-error" class="hidden-view bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                        <p class="text-sm text-red-700" id="reg-error-text"></p>
+                    </div>
+                    
+                    <form onsubmit="handleRegister(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nama Lengkap (Sesuai KTP)</label>
+                            <input type="text" id="reg-name" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nomor Handphone (Angka Saja)</label>
+                            <input type="tel" id="reg-phone" required placeholder="Contoh: 08123456789" class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email Lengkap</label>
+                            <input type="email" id="reg-email" required placeholder="contoh@gmail.com" class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Username</label>
+                            <input type="text" id="reg-username" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="reg-password" required placeholder="Minimal kombinasi huruf dan angka" class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition mt-6">
+                            Daftar Sekarang
+                        </button>
+                    </form>
+                    <div class="mt-4 text-center">
+                        <button onclick="navigateTo('login')" class="text-sm font-medium text-gray-600 hover:text-green-600">Kembali ke halaman Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== HALAMAN BERANDA ==================== -->
+        <div id="view-home" class="hidden-view fade-in space-y-8">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg shadow-sm flex items-start sm:items-center">
+                <i class="fas fa-exclamation-circle text-yellow-600 text-2xl mr-3 mt-1 sm:mt-0"></i>
+                <p class="text-yellow-800 text-sm sm:text-base">
+                    Jika ada kendala dalam pelaksanaan MCU atau pertanyaan lebih lanjut, dapat menghubungi Admin di: <span class="font-bold">0819-1184-6045</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- AI Chat Section -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-green-100 rounded-xl p-6 text-green-900 border border-green-200">
+                        <h2 class="text-xl font-bold mb-2 flex items-center"><i class="fas fa-notes-medical mr-2"></i> Tanya Asisten AI</h2>
+                        <p class="text-sm mb-4">Bingung terkait penyakit yang kamu alami? Tanya asisten MCU LPK Yonasindo Intra Pratama di sini!</p>
+                    </div>
+                    
+                    <!-- Chatbox HTML -->
+                    <div class="bg-white rounded-xl shadow-lg border border-green-100 overflow-hidden flex flex-col h-[400px]">
+                        <div class="bg-green-600 text-white p-4 flex items-center">
+                            <i class="fas fa-robot text-xl mr-2"></i>
+                            <h3 class="font-semibold">Asisten Medis Yonasindo</h3>
+                        </div>
+                        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-slate-50 space-y-3 chat-scroll">
+                            <div class="text-center text-gray-500 mt-10" id="chat-welcome">
+                                <i class="fas fa-robot text-5xl text-green-300 mb-2"></i>
+                                <p>Halo! Ada yang ingin ditanyakan seputar kesehatan atau MCU?</p>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-white border-t flex items-center">
+                            <input type="text" id="chat-input" onkeypress="handleChatKeyPress(event)" placeholder="Tanya tentang penyakit..." class="flex-1 border rounded-l-lg py-2 px-3 focus:outline-none focus:ring-1 focus:ring-green-500 text-sm">
+                            <button onclick="handleSendChat()" id="chat-send-btn" class="bg-green-600 text-white p-2 py-2.5 rounded-r-lg hover:bg-green-700 transition">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informasi Edukasi Section -->
+                <div class="lg:col-span-2 space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center border-b pb-2">
+                        <i class="fas fa-map-marker-alt text-green-600 mr-2"></i> Informasi Alamat Klinik
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <a href="https://maps.app.goo.gl/GmmUSYk2HF7MKiZe9" target="_blank" class="block bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 hover:border-green-300 group">
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-green-600">Galaxy Medical Center</h3>
+                            <p class="text-sm text-gray-500 mt-2 flex items-center"><i class="fas fa-map-marker-alt mr-1"></i> Klik untuk buka di Google Maps</p>
+                        </a>
+                        <a href="https://maps.app.goo.gl/p2VsoUjjksadMkrK6" target="_blank" class="block bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 hover:border-green-300 group">
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-green-600">Klinik Rosela Indah Medikal Center</h3>
+                            <p class="text-sm text-gray-500 mt-2 flex items-center"><i class="fas fa-map-marker-alt mr-1"></i> Klik untuk buka di Google Maps</p>
+                        </a>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center border-b pb-2 mt-8">
+                        <i class="fas fa-info-circle text-green-600 mr-2"></i> Standar MCU & Edukasi Kesehatan
+                    </h2>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-green-700 mb-2">Standar MCU Magang ke Jepang</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">Persyaratan kesehatan bagi calon pemagang (Ginou Jisshu) dan pekerja keterampilan spesifik (Tokutei Ginou) ke Jepang sangatlah ketat. Calon tenaga kerja dituntut memiliki stamina prima dan terbebas dari berbagai kondisi medis tertentu. Jika ditemukan salah satu dari penyakit di bawah ini, kandidat berisiko besar dinyatakan <strong>UNFIT</strong> (Gagal).</p>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-green-700 mb-2">Cara Mempertahankan Daya Tahan Tubuh</h3>
+                            <ul class="list-disc pl-5 text-gray-600 text-sm leading-relaxed space-y-1">
+                                <li>Tidur cukup minimal 7-8 jam sehari. Jangan begadang.</li>
+                                <li>Konsumsi makanan sehat, kurangi yang terlalu manis, asin, dan berlemak tinggi.</li>
+                                <li>Rutin berolahraga (jogging, push up, sit up) untuk menjaga detak jantung dan stamina otot.</li>
+                                <li>Minum air putih minimal 2 liter per hari.</li>
+                                <li>Berhenti total merokok dan hindari konsumsi minuman beralkohol.</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- DAFTAR 16 PENYAKIT -->
+                        <div class="p-6 bg-red-50">
+                            <h3 class="text-xl font-bold text-red-700 mb-4 border-b border-red-200 pb-2">Kondisi & Penyakit yang Wajib Dihindari</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 1. TBC (Tuberkulosis) Paru</h4><p class="text-gray-600 text-xs mt-1 ml-3">Penyakit pernapasan menular. Paru-paru harus bersih dari bercak/flek pada hasil rontgen (X-Ray).</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 2. Hepatitis (A, B, dan C)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Infeksi radang hati/liver yang menular melalui cairan tubuh/makanan. Wajib HBsAg Negatif.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 3. HIV / AIDS</h4><p class="text-gray-600 text-xs mt-1 ml-3">Virus yang merusak sistem kekebalan tubuh. Mutlak dilarang di standar ketenagakerjaan mana pun.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 4. Sifilis (Raja Singa) & PMS</h4><p class="text-gray-600 text-xs mt-1 ml-3">Penyakit Menular Seksual (PMS) seperti Sifilis, Gonore (Kencing Nanah). Wajib VDRL/TPHA Negatif.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 5. Diabetes Melitus (Kencing Manis)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Kadar gula darah sangat tinggi. Sangat berisiko pingsan atau komplikasi saat kerja fisik berat di Jepang.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 6. Penyakit Jantung Koroner</h4><p class="text-gray-600 text-xs mt-1 ml-3">Masalah pada pembuluh darah atau ritme jantung. Terdeteksi melalui EKG (Rekam Jantung).</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 7. Hipertensi Berat (Darah Tinggi)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Tekanan darah yang konsisten terlalu tinggi di atas batas normal. Rentan stroke saat cuaca ekstrem Jepang.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 8. Asma Parah & PPOK</h4><p class="text-gray-600 text-xs mt-1 ml-3">Penyakit saluran pernapasan kronis. Jepang memiliki musim dingin yang sangat menyiksa penderita Asma.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 9. Gagal Ginjal & Batu Ginjal</h4><p class="text-gray-600 text-xs mt-1 ml-3">Penurunan fungsi ginjal atau terdapat batu ginjal yang membutuhkan tindakan medis berkelanjutan.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 10. Buta Warna (Parsial/Total)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Kesulitan membedakan warna tertentu. Banyak pabrik di Jepang melarang keras demi keselamatan kerja mesin.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 11. Penyakit Mata (Katarak/Glaukoma)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Masalah serius pada penglihatan. Ketajaman mata standar sangat diperlukan.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 12. Patah Tulang dengan Pen (Besi)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Bekas patah tulang yang masih terpasang Pen/Platina seringkali tidak diloloskan karena memicu ngilu di suhu dingin.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 13. Hernia (Turun Berok)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Sangat berbahaya jika dipaksakan untuk kerja angkat beban berat seperti sektor konstruksi atau pabrik.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 14. Wasir / Ambeien (Tingkat Lanjut)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Pembengkakan pembuluh darah di rektum. Mengganggu mobilitas saat bekerja dengan posisi tertentu seharian.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 15. Kusta (Lepra)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Penyakit kulit dan saraf kronis menular yang dilarang keras secara internasional untuk pekerja migran.</p></div>
+                                <div><h4 class="font-semibold text-gray-900 text-sm flex items-start"><span class="text-red-500 mr-1">•</span> 16. Tato & Tindik (Bagi Pria)</h4><p class="text-gray-600 text-xs mt-1 ml-3">Meski bukan penyakit, tato dan tindik adalah pelanggaran fatal secara budaya kerja di perusahaan Jepang.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== HALAMAN BUAT PENGAJUAN ==================== -->
+        <div id="view-pengajuan" class="hidden-view fade-in max-w-2xl mx-auto bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+            <div class="bg-green-600 p-6 text-white">
+                <h2 class="text-2xl font-bold flex items-center"><i class="fas fa-file-alt mr-2"></i> Form Pengajuan MCU</h2>
+                <p class="text-green-100 text-sm mt-1">Isi data di bawah ini dengan lengkap dan benar sesuai KTP.</p>
+            </div>
+            
+            <form onsubmit="handleSubmitMCU(event)" class="p-6 space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nama Lengkap (Sesuai KTP)</label>
+                    <input type="text" id="mcu-nama" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nomor Handphone</label>
+                        <input type="tel" id="mcu-nohp" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                        <input type="date" id="mcu-tgllahir" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nama Kumiai / LPK</label>
+                    <input type="text" id="mcu-kumiai" required placeholder="Contoh: Yonasindo" class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Pilih Klinik</label>
+                    <select id="mcu-klinik" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 bg-white">
+                        <option value="">-- Pilih Klinik --</option>
+                        <option value="Galaxy Medical Center">Galaxy Medical Center</option>
+                        <option value="Klinik Rosela Indah Medikal Center">Klinik Rosela Indah Medikal Center</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Paket Pemeriksaan</label>
+                    <select id="mcu-paket" required class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-green-500 focus:border-green-500 bg-white">
+                        <option value="">-- Pilih Paket --</option>
+                        <option value="MCU Pra">MCU Pra (Untuk Siswa Baru Masuk LPK)</option>
+                        <option value="MCU Full">MCU Full (Siswa Lolos Mensetsu/Matching Job)</option>
+                        <option value="MCU Akhir">MCU Akhir (CoE/Penerbangan)</option>
+                    </select>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition">Ajukan MCU Sekarang</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ==================== HALAMAN PENGAJUAN SAYA ==================== -->
+        <div id="view-pengajuansaya" class="hidden-view fade-in max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Pengajuan MCU Saya</h2>
+            <div id="pengajuansaya-container" class="space-y-4">
+                <!-- Data akan dirender oleh JS -->
+            </div>
+        </div>
+
+        <!-- ==================== HALAMAN DATABASE HASIL MCU ==================== -->
+        <div id="view-hasilmcu" class="hidden-view fade-in">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 gap-4">
+                <h2 class="text-2xl font-bold text-gray-800">Database Hasil MCU</h2>
+                
+                <!-- Kolom Pencarian -->
+                <div class="relative w-full md:w-72">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" id="search-hasil" oninput="renderHasilMCU()" placeholder="Cari nama siswa..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-green-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Nama Siswa</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Kumiai</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Klinik & Paket</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-green-800 uppercase tracking-wider">Hasil MCU</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-hasilmcu" class="bg-white divide-y divide-gray-200">
+                        <!-- Data akan dirender oleh JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== HALAMAN DASHBOARD ADMIN ==================== -->
+        <div id="view-admin" class="hidden-view fade-in">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 gap-4">
+                <h2 class="text-2xl font-bold text-gray-800">Panel Administrator MCU</h2>
+                <!-- Kolom Pencarian Admin -->
+                <div class="relative w-full md:w-72">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" id="search-admin" oninput="renderAdminDashboard()" placeholder="Cari nama pengaju..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Info Siswa</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Paket & Klinik</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Status Persetujuan</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Input Hasil</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-admin" class="bg-white divide-y divide-gray-200">
+                        <!-- Data akan dirender oleh JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- KODE JAVASCRIPT UTAMA -->
+    <script>
+        // =========================================================================
+        // PENGATURAN API KONEKSI
+        // =========================================================================
+        // JANGAN LUPA: Masukkan URL Web App Google Sheets Anda di bawah ini
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwq3OnREPs1On148URITCl3OldW1BrvOW8TiHsV0FVD3bjsVrYUlwsRaQVZQqXX9tNx/exec"; 
+        const GEMINI_API_KEY = ""; // Dibiarkan kosong sesuai template
+
+        // =========================================================================
+        // VARIABEL STATE GLOBAL
+        // =========================================================================
+        let currentUser = null;
+        let currentView = 'login';
+        let submissions = [];
+
+        // =========================================================================
+        // MANAJEMEN SESI (COOKIES)
+        // =========================================================================
+        function setCookieSession(userData, remember) {
+            const days = remember ? 7 : 1; 
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = `mcu_user_session=${encodeURIComponent(JSON.stringify(userData))}; expires=${expires}; path=/`;
+        }
+
+        function getCookieSession() {
+            const match = document.cookie.match(new RegExp('(^| )mcu_user_session=([^;]+)'));
+            if (match) {
+                try { return JSON.parse(decodeURIComponent(match[2])); } 
+                catch (e) { return null; }
+            }
+            return null;
+        }
+
+        function clearCookieSession() {
+            document.cookie = "mcu_user_session=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        }
+
+        // =========================================================================
+        // FUNGSI KOMUNIKASI API (FETCH)
+        // =========================================================================
+        async function fetchAPI(action, data = {}) {
+            if (GOOGLE_SCRIPT_URL === "MASUKKAN_URL_APPS_SCRIPT_DISINI" || !GOOGLE_SCRIPT_URL.startsWith("http")) {
+                alert("Peringatan: Anda belum memasukkan URL Web App Google Sheets di dalam kode Javascript. Silakan periksa kembali.");
+                return { success: false, message: "URL API belum dikonfigurasi." };
+            }
+
+            document.getElementById('loading-overlay').classList.remove('hidden-view');
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: action, data: data }) 
+                });
+                const result = await response.json();
+                document.getElementById('loading-overlay').classList.add('hidden-view');
+                return result;
+            } catch (error) {
+                document.getElementById('loading-overlay').classList.add('hidden-view');
+                console.error("API Error:", error);
+                alert("Terjadi kesalahan jaringan atau API Google Sheets belum terpasang dengan benar. Pastikan URL yang Anda masukkan sudah tepat.");
+                return { success: false, message: "Koneksi Terputus" };
+            }
+        }
+
+        async function loadSubmissions() {
+            if(GOOGLE_SCRIPT_URL === "MASUKKAN_URL_APPS_SCRIPT_DISINI") return; 
+            const res = await fetchAPI('get_submissions');
+            if (res && res.success) {
+                submissions = res.data;
+                // Render ulang data pada view yang aktif
+                if(currentView === 'pengajuansaya') renderPengajuanSaya();
+                if(currentView === 'hasilmcu') renderHasilMCU();
+                if(currentView === 'admin') renderAdminDashboard();
+            }
+        }
+
+        // =========================================================================
+        // FUNGSI NAVIGASI & UI
+        // =========================================================================
+        function navigateTo(view) {
+            // Sembunyikan semua view
+            const views = ['login', 'register', 'home', 'pengajuan', 'pengajuansaya', 'hasilmcu', 'admin'];
+            views.forEach(v => {
+                document.getElementById('view-' + v).classList.add('hidden-view');
+            });
+            
+            // Tutup menu mobile jika terbuka
+            document.getElementById('mobile-menu').classList.add('hidden-view');
+            document.getElementById('mobile-menu-icon').className = "fas fa-bars text-2xl";
+
+            // Tampilkan target view
+            currentView = view;
+            document.getElementById('view-' + view).classList.remove('hidden-view');
+            window.scrollTo(0, 0);
+
+            // Update Navbar Visibility & Content
+            const navbar = document.getElementById('navbar');
+            if (view === 'login' || view === 'register') {
+                navbar.classList.add('hidden-view');
+            } else {
+                navbar.classList.remove('hidden-view');
+                renderNavbar();
+            }
+
+            // Load data jika masuk ke halaman yang butuh data
+            if (['pengajuansaya', 'hasilmcu', 'admin'].includes(view)) {
+                // Reset search inputs
+                if(document.getElementById('search-hasil')) document.getElementById('search-hasil').value = '';
+                if(document.getElementById('search-admin')) document.getElementById('search-admin').value = '';
+                loadSubmissions();
+            }
+
+            // Prefill form pengajuan jika masuk ke view pengajuan
+            if(view === 'pengajuan' && currentUser) {
+                document.getElementById('mcu-nama').value = currentUser.fullName || '';
+                document.getElementById('mcu-nohp').value = currentUser.phone || '';
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            if(menu.classList.contains('hidden-view')) {
+                menu.classList.remove('hidden-view');
+                icon.className = "fas fa-times text-2xl";
+            } else {
+                menu.classList.add('hidden-view');
+                icon.className = "fas fa-bars text-2xl";
+            }
+        }
+
+        function renderNavbar() {
+            if(!currentUser) return;
+            
+            const desktopMenu = document.getElementById('nav-desktop-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            let linksHTML = '';
+            
+            if (currentUser.role === 'siswa') {
+                linksHTML = `
+                    <button onclick="navigateTo('home')" class="px-3 py-2 rounded-md ${currentView === 'home' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block">Beranda</button>
+                    <button onclick="navigateTo('pengajuan')" class="px-3 py-2 rounded-md ${currentView === 'pengajuan' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block mt-1 md:mt-0">Buat Pengajuan</button>
+                    <button onclick="navigateTo('pengajuansaya')" class="px-3 py-2 rounded-md ${currentView === 'pengajuansaya' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block mt-1 md:mt-0">Pengajuan Saya</button>
+                    <button onclick="navigateTo('hasilmcu')" class="px-3 py-2 rounded-md ${currentView === 'hasilmcu' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block mt-1 md:mt-0">Hasil MCU</button>
+                `;
+            } else if (currentUser.role === 'admin') {
+                linksHTML = `
+                    <button onclick="navigateTo('admin')" class="px-3 py-2 rounded-md ${currentView === 'admin' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block">Dashboard Admin</button>
+                    <button onclick="navigateTo('hasilmcu')" class="px-3 py-2 rounded-md ${currentView === 'hasilmcu' ? 'bg-green-800' : 'hover:bg-green-600'} w-full md:w-auto text-left md:text-center block md:inline-block mt-1 md:mt-0">Database Hasil</button>
+                `;
+            }
+
+            // Desktop inject
+            desktopMenu.innerHTML = `
+                ${linksHTML}
+                <div class="border-l border-green-500 h-6 mx-2 hidden md:block"></div>
+                <span class="text-sm font-medium mr-4">Hi, ${currentUser.fullName}</span>
+                <button onclick="handleLogout()" class="flex items-center bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-sm transition">
+                    <i class="fas fa-sign-out-alt mr-1"></i> Keluar
+                </button>
+            `;
+
+            // Mobile inject
+            mobileMenu.innerHTML = `
+                ${linksHTML}
+                <div class="border-t border-green-600 my-2"></div>
+                <button onclick="handleLogout()" class="block w-full text-left px-3 py-2 rounded-md text-red-300 hover:bg-red-600 hover:text-white transition">Keluar</button>
+            `;
+        }
+
+        // =========================================================================
+        // FUNGSI AUTENTIKASI (LOGIN / REGISTER / LOGOUT)
+        // =========================================================================
+        async function handleLogin(e) {
+            e.preventDefault();
+            const errDiv = document.getElementById('login-error');
+            const errText = document.getElementById('login-error-text');
+            errDiv.classList.add('hidden-view');
+
+            const userVal = document.getElementById('login-username').value;
+            const passVal = document.getElementById('login-password').value;
+            const remember = document.getElementById('remember-me').checked;
+
+            // Demo Admin override jika URL belum diganti (sebagai fallback)
+            if(GOOGLE_SCRIPT_URL === "MASUKKAN_URL_APPS_SCRIPT_DISINI" && userVal === 'adminmcuyonasindo') {
+               const demoAdmin = { id: 'admin_master', username: 'adminmcuyonasindo', role: 'admin', fullName: 'Admin MCU' };
+               currentUser = demoAdmin;
+               setCookieSession(demoAdmin, remember);
+               navigateTo('admin');
+               return;
+            }
+
+            const res = await fetchAPI('login', { username: userVal, password: passVal });
+            
+            if (res.success) {
+                currentUser = res.data;
+                setCookieSession(res.data, remember);
+                // Kosongkan form input
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
+                navigateTo(res.data.role === 'admin' ? 'admin' : 'home');
+            } else {
+                errText.innerText = res.message;
+                errDiv.classList.remove('hidden-view');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const errDiv = document.getElementById('reg-error');
+            const errText = document.getElementById('reg-error-text');
+            errDiv.classList.add('hidden-view');
+
+            const fullName = document.getElementById('reg-name').value;
+            const phone = document.getElementById('reg-phone').value;
+            const email = document.getElementById('reg-email').value;
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (!/^\d+$/.test(phone)) {
+                errText.innerText = 'Harap menuliskan nomor telepon aktif (hanya angka)!';
+                errDiv.classList.remove('hidden-view'); return;
+            }
+            if (!email.includes('@')) {
+                errText.innerText = 'Email harus menggunakan format yang benar (contoh: @gmail.com)';
+                errDiv.classList.remove('hidden-view'); return;
+            }
+            if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+                errText.innerText = 'Password minimal harus mengandung kombinasi huruf dan angka!';
+                errDiv.classList.remove('hidden-view'); return;
+            }
+
+            const res = await fetchAPI('register', {
+                fullName, phone, email, username, password
+            });
+
+            if (res.success) {
+                alert('Pendaftaran berhasil! Silakan Log In.');
+                navigateTo('login');
+            } else {
+                errText.innerText = res.message;
+                errDiv.classList.remove('hidden-view');
+            }
+        }
+
+        function handleLogout() {
+            clearCookieSession();
+            currentUser = null;
+            navigateTo('login');
+        }
+
+        // =========================================================================
+        // FUNGSI RENDER HALAMAN DATA
+        // =========================================================================
+        async function handleSubmitMCU(e) {
+            e.preventDefault();
+            const res = await fetchAPI('submit_mcu', {
+                userId: currentUser.id,
+                namaLengkap: document.getElementById('mcu-nama').value,
+                noHp: document.getElementById('mcu-nohp').value,
+                tanggalLahir: document.getElementById('mcu-tgllahir').value,
+                kumiai: document.getElementById('mcu-kumiai').value,
+                klinik: document.getElementById('mcu-klinik').value,
+                paket: document.getElementById('mcu-paket').value
+            });
+
+            if(res.success) {
+                alert('Pengajuan berhasil dibuat! Menunggu persetujuan admin.');
+                document.getElementById('mcu-kumiai').value = ''; // clear specific fields
+                navigateTo('pengajuansaya');
+            } else {
+                alert('Gagal: ' + res.message);
+            }
+        }
+
+        function renderPengajuanSaya() {
+            const container = document.getElementById('pengajuansaya-container');
+            const userSubmissions = submissions.filter(s => s.userId === currentUser.id);
+
+            if (userSubmissions.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded shadow-sm text-center">
+                        <i class="fas fa-exclamation-circle text-5xl text-yellow-400 mb-3 block"></i>
+                        <h3 class="text-lg font-medium text-yellow-800">Anda belum mengajukan pengajuan MCU</h3>
+                        <p class="text-yellow-700 mt-1 mb-4">Silakan buat pengajuan MCU terlebih dahulu!</p>
+                        <button onclick="navigateTo('pengajuan')" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md font-medium transition">Buat Pengajuan Sekarang</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            userSubmissions.forEach(sub => {
+                const statusBadge = sub.status === 'Disetujui' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+                html += `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col md:flex-row justify-between items-start md:items-center hover:border-green-300 transition">
+                        <div>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium ${statusBadge}">${sub.status}</span>
+                                <span class="text-gray-400 text-xs">${sub.tanggalPengajuan}</span>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-900">${sub.paket}</h3>
+                            <p class="text-gray-600 text-sm mt-1"><i class="fas fa-map-marker-alt mr-1"></i>${sub.klinik}</p>
+                            <p class="text-gray-500 text-sm mt-1">Kumiai: ${sub.kumiai}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderHasilMCU() {
+            const tbody = document.getElementById('tbody-hasilmcu');
+            const searchTerm = document.getElementById('search-hasil').value.toLowerCase();
+            
+            // Filter hanya yang disetujui & sesuai keyword
+            const approvedSubs = submissions.filter(s => s.status === 'Disetujui');
+            const filteredSubs = approvedSubs.filter(s => s.namaLengkap.toLowerCase().includes(searchTerm));
+
+            if (approvedSubs.length === 0) {
+                tbody.innerHTML = `<tr><td colSpan="5" class="px-6 py-10 text-center text-gray-500">Belum ada data MCU yang disetujui.</td></tr>`;
+                return;
+            }
+
+            if (searchTerm !== '' && filteredSubs.length === 0) {
+                tbody.innerHTML = `<tr><td colSpan="5" class="px-6 py-10 text-center text-gray-500">Tidak ada siswa dengan nama "${searchTerm}" yang ditemukan.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filteredSubs.forEach(sub => {
+                // SENSOR LOGIC
+                const isOwnerOrAdmin = currentUser.role === 'admin' || sub.userId === currentUser.id;
+                const displayName = isOwnerOrAdmin ? sub.namaLengkap : sub.namaLengkap.substring(0, 3) + '****';
+                const displayResult = isOwnerOrAdmin ? sub.hasil : '****';
+
+                let badgeClass = 'bg-gray-100 text-gray-800';
+                if (displayResult === 'FIT TO WORK') badgeClass = 'bg-green-100 text-green-800 font-bold border border-green-200';
+                if (displayResult === 'FIT WITH NOTE') badgeClass = 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+                if (displayResult === 'UNFIT') badgeClass = 'bg-red-100 text-red-800 font-bold border border-red-200';
+
+                html += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sub.tanggalPengajuan}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${displayName} ${isOwnerOrAdmin && currentUser.role === 'siswa' ? '<span class="text-xs text-green-600 ml-2">(Anda)</span>' : ''}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sub.kumiai}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><div>${sub.klinik}</div><div class="text-xs text-gray-400">${sub.paket}</div></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center"><span class="px-3 py-1 inline-flex text-xs rounded-full ${badgeClass}">${displayResult}</span></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderAdminDashboard() {
+            const tbody = document.getElementById('tbody-admin');
+            const searchTerm = document.getElementById('search-admin').value.toLowerCase();
+            
+            const filteredSubs = submissions.filter(s => s.namaLengkap.toLowerCase().includes(searchTerm));
+
+            if (submissions.length === 0) {
+                tbody.innerHTML = `<tr><td colSpan="4" class="px-6 py-10 text-center text-gray-500">Belum ada pengajuan.</td></tr>`;
+                return;
+            }
+
+            if (searchTerm !== '' && filteredSubs.length === 0) {
+                tbody.innerHTML = `<tr><td colSpan="4" class="px-6 py-10 text-center text-gray-500">Tidak ada pengajuan atas nama "${searchTerm}".</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filteredSubs.forEach(sub => {
+                
+                let actionHTML = '';
+                if(sub.status === 'Disetujui') {
+                    actionHTML = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Disetujui</span>`;
+                } else {
+                    actionHTML = `<button onclick="adminSetuju('${sub.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs transition">Setujui</button>`;
+                }
+
+                let resultHTML = '';
+                if(sub.status === 'Disetujui') {
+                    resultHTML = `
+                        <select onchange="adminUpdateHasil('${sub.id}', this.value)" class="text-sm border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 border p-1">
+                            <option value="" disabled ${sub.hasil === 'Belum Ada Hasil' ? 'selected' : ''}>Pilih Hasil...</option>
+                            <option value="FIT TO WORK" ${sub.hasil === 'FIT TO WORK' ? 'selected' : ''}>FIT TO WORK</option>
+                            <option value="FIT WITH NOTE" ${sub.hasil === 'FIT WITH NOTE' ? 'selected' : ''}>FIT WITH NOTE</option>
+                            <option value="UNFIT" ${sub.hasil === 'UNFIT' ? 'selected' : ''}>UNFIT</option>
+                        </select>
+                    `;
+                } else {
+                    resultHTML = `<span class="text-xs text-gray-400">Setujui dulu</span>`;
+                }
+
+                html += `
+                    <tr>
+                        <td class="px-6 py-4"><div class="text-sm font-medium text-gray-900">${sub.namaLengkap}</div><div class="text-sm text-gray-500">${sub.noHp} | ${sub.kumiai}</div></td>
+                        <td class="px-6 py-4 text-sm text-gray-500"><div class="font-medium text-gray-800">${sub.paket}</div><div>${sub.klinik}</div></td>
+                        <td class="px-6 py-4 text-center">${actionHTML}</td>
+                        <td class="px-6 py-4 text-center">${resultHTML}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Action Handlers untuk Admin
+        async function adminSetuju(id) {
+            const res = await fetchAPI('update_submission', { id: id, status: 'Disetujui' });
+            if(res.success) loadSubmissions(); 
+        }
+
+        async function adminUpdateHasil(id, val) {
+            if(!val) return;
+            const res = await fetchAPI('update_submission', { id: id, hasil: val });
+            if(res.success) loadSubmissions();
+        }
+
+        // =========================================================================
+        // FUNGSI CHATBOT AI GEMINI
+        // =========================================================================
+        function appendChatMessage(role, text) {
+            const chatBox = document.getElementById('chat-messages');
+            const welcomeMsg = document.getElementById('chat-welcome');
+            if(welcomeMsg) welcomeMsg.remove();
+
+            const isUser = role === 'user';
+            const alignClass = isUser ? 'justify-end' : 'justify-start';
+            const bubbleClass = isUser ? 'bg-green-500 text-white rounded-br-none' : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none';
+
+            const divWrapper = document.createElement('div');
+            divWrapper.className = `flex ${alignClass}`;
+            divWrapper.innerHTML = `<div class="max-w-[85%] rounded-lg p-3 text-sm ${bubbleClass}">${text}</div>`;
+            
+            chatBox.appendChild(divWrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showChatLoading(show) {
+            const chatBox = document.getElementById('chat-messages');
+            if(show) {
+                const div = document.createElement('div');
+                div.id = 'chat-loader';
+                div.className = "flex justify-start";
+                div.innerHTML = `
+                    <div class="bg-white border border-gray-200 text-gray-500 rounded-lg p-3 text-sm rounded-bl-none flex space-x-1">
+                        <div class="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-green-400 rounded-full animate-bounce" style="animation-delay: 100ms"></div>
+                        <div class="w-2 h-2 bg-green-400 rounded-full animate-bounce" style="animation-delay: 200ms"></div>
+                    </div>`;
+                chatBox.appendChild(div);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } else {
+                const loader = document.getElementById('chat-loader');
+                if(loader) loader.remove();
+            }
+        }
+
+        async function handleSendChat() {
+            const inputEl = document.getElementById('chat-input');
+            const btnEl = document.getElementById('chat-send-btn');
+            const text = inputEl.value.trim();
+            if(!text) return;
+
+            appendChatMessage('user', text);
+            inputEl.value = '';
+            inputEl.disabled = true;
+            btnEl.disabled = true;
+            showChatLoading(true);
+
+            try {
+                const prompt = `Kamu adalah asisten medis virtual untuk LPK Yonasindo Intra Pratama. Jawablah pertanyaan seputar kesehatan, penyakit, dan persiapan Medical Check Up (MCU) untuk siswa yang akan magang ke Jepang dengan bahasa Indonesia yang ramah, profesional, dan mudah dimengerti. Pertanyaan user: ${text}`;
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                
+                const data = await response.json();
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, sistem AI sedang sibuk. Coba lagi nanti.";
+                
+                showChatLoading(false);
+                appendChatMessage('ai', aiText);
+            } catch (error) {
+                showChatLoading(false);
+                appendChatMessage('ai', "Maaf, API Key AI belum diatur atau terjadi kesalahan jaringan.");
+            } finally {
+                inputEl.disabled = false;
+                btnEl.disabled = false;
+                inputEl.focus();
+            }
+        }
+
+        function handleChatKeyPress(e) {
+            if(e.key === 'Enter') handleSendChat();
+        }
+
+        // =========================================================================
+        // INIT SISTEM KETIKA HALAMAN DIMUAT
+        // =========================================================================
+        window.onload = () => {
+            const savedUser = getCookieSession();
+            if (savedUser) {
+                currentUser = savedUser;
+                navigateTo(savedUser.role === 'admin' ? 'admin' : 'home');
+            } else {
+                navigateTo('login');
+            }
+        };
+
+    </script>
+</body>
+</html>
