@@ -29,6 +29,8 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+        /* Safe area padding untuk layar HP modern (iPhone dll) */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #a5e8c1; border-radius: 4px; }
@@ -37,44 +39,50 @@
 </head>
 <body class="text-gray-800 antialiased overflow-x-hidden">
 
-    <!-- Loading Screen (Diperbaiki agar di tengah dan logo lebih besar) -->
+    <!-- Loading Screen -->
     <div id="loader" class="fixed inset-0 bg-white/90 z-[100] flex-col items-center justify-center fade-in" style="display: none;">
         <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo Yonasindo" class="w-40 h-40 mb-4 animate-heartbeat drop-shadow-lg object-contain">
         <p class="text-secondary font-bold animate-pulse">Memproses Data...</p>
     </div>
 
-    <!-- Navbar -->
+    <!-- Navbar Atas -->
     <nav id="navbar" class="bg-secondary text-white shadow-lg hidden-view fixed w-full z-40 top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <!-- Logo di navbar tanpa background putih -->
                     <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-8 w-8 mr-3 object-contain">
                     <span class="font-bold text-lg md:text-xl truncate">MCU Yonasindo</span>
                 </div>
+                <!-- Menu Desktop -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4" id="nav-links-desktop"></div>
                 </div>
+                <!-- Tombol Keluar di Pojok Kanan HP (Menu Strip 3 dihapus) -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white hover:text-light focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl"></i>
+                    <button onclick="logout()" class="text-red-300 hover:text-red-100 focus:outline-none p-2 flex flex-col items-center justify-center">
+                        <i class="fa-solid fa-power-off text-xl"></i>
+                        <span class="text-[10px] font-bold mt-1">Keluar</span>
                     </button>
                 </div>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-dark pb-3 pt-2">
-            <div class="px-2 space-y-1 sm:px-3" id="nav-links-mobile"></div>
+    </nav>
+
+    <!-- Menu Navigasi Bawah Khusus HP (Solusi Anti-Gaptek) -->
+    <nav id="bottom-nav" class="hidden-view md:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-50 pb-safe border-t border-gray-100">
+        <div id="bottom-nav-links" class="flex justify-around items-center h-16">
+            <!-- Diisi otomatis oleh Javascript (Beranda, Pengajuan, Hasil) -->
         </div>
     </nav>
 
     <!-- Main Content Container -->
-    <main id="app-container" class="min-h-screen pt-16 pb-10 flex flex-col items-center w-full">
+    <!-- pb-24 ditambahkan agar konten tidak tertutup menu bawah -->
+    <main id="app-container" class="min-h-screen pt-16 pb-24 md:pb-10 flex flex-col items-center w-full">
 
         <!-- ==================== AUTH VIEW ==================== -->
         <section id="view-auth" class="w-full max-w-md p-6 mt-10 hidden-view fade-in pt-0">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="bg-primary p-6 text-center">
-                    <!-- Logo di halaman auth diperbesar dan tanpa background putih -->
                     <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-32 w-32 mb-4 object-contain mx-auto drop-shadow-lg">
                     <h2 class="text-2xl font-bold text-white">Portal MCU</h2>
                     <p class="text-light text-sm">LPK Yonasindo Intra Pratama</p>
@@ -103,6 +111,12 @@
                         <div class="mb-3">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
                             <input type="text" id="reg-nama" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
+                            <div class="mt-1 text-[10px] leading-tight text-gray-500 bg-gray-50 p-1.5 rounded border">
+                                Wajib menulis sesuai ejaan EYD Bahasa Indonesia yang baik dan benar!<br>
+                                <span class="text-green-600 font-semibold">Contoh Benar : Elvari Faisal</span><br>
+                                <span class="text-red-500">Contoh Salah : elvari faisal</span><br>
+                                <span class="text-red-500">Contoh Salah : ELVARI FAISAL</span>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -122,7 +136,9 @@
                         </div>
                         <div class="mb-3">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                            <input type="text" id="reg-username" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
+                            <input type="text" id="reg-username" oninput="validateUsername(this)" placeholder="Tanpa spasi" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
+                            <p class="text-[10px] text-blue-600 mt-1 font-medium">* Perhatikan huruf besar dan kecilnya!</p>
+                            <p id="err-username" class="text-red-500 text-xs mt-1 hidden">Username tidak boleh pakai spasi!</p>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
@@ -146,8 +162,12 @@
                     <div id="dash-admin-greet" class="hidden mt-4 p-3 bg-white/20 rounded-lg inline-block border border-white/30 backdrop-blur-sm">
                         <i class="fa-solid fa-crown text-yellow-300 mr-2"></i> Selamat datang bos medical, silahkan enjoy the moment dulu dah!
                     </div>
-                    <div id="dash-student-alert" class="hidden mt-2 p-3 bg-red-500 rounded-lg shadow-inner font-semibold border border-red-400">
-                        <i class="fa-solid fa-circle-exclamation mr-2"></i> Harap isi pengajuan di laman pengajuan medical jika ingin medical check-up!
+                    
+                    <!-- Tombol Pengajuan Di Tengah (Diubah menjadi Tombol Sangat Mencolok) -->
+                    <div id="dash-student-alert" onclick="navigate('view-pengajuan')" class="hidden mt-6 p-4 bg-yellow-400 hover:bg-yellow-500 cursor-pointer rounded-xl shadow-lg text-yellow-900 border-2 border-yellow-500 text-center animate-bounce transition-transform transform active:scale-95">
+                        <i class="fa-solid fa-pen-to-square text-3xl mb-1 block text-secondary"></i>
+                        <span class="font-black text-lg block">KLIK DI SINI</span>
+                        <span class="font-bold text-sm block">UNTUK MENGISI PENGAJUAN MEDICAL</span>
                     </div>
                 </div>
                 <div class="absolute -bottom-10 -right-10 text-9xl text-white/10">
@@ -269,7 +289,7 @@
                             </div>
                             <div class="mt-6 flex justify-end gap-2">
                                 <button type="button" id="btn-cancel-edit" onclick="cancelEdit()" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg">Batal</button>
-                                <button type="submit" id="btn-submit-pengajuan" class="bg-primary text-white font-bold py-2 px-6 rounded-lg shadow">Submit</button>
+                                <button type="submit" id="btn-submit-pengajuan" class="bg-primary hover:bg-dark text-white font-bold py-2 px-6 rounded-lg shadow w-full md:w-auto">Submit Pengajuan</button>
                             </div>
                         </form>
                     </div>
@@ -354,12 +374,12 @@
                     <!-- Navigasi Bulan -->
                     <div class="flex items-center gap-3">
                         <button onclick="changeMonth(-1)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded shadow-sm transition"><i class="fa-solid fa-chevron-left"></i></button>
-                        <h3 id="cal-month-year" class="text-lg font-bold text-primary w-40 text-center">Bulan Tahun</h3>
+                        <h3 id="cal-month-year" class="text-lg font-bold text-primary w-32 md:w-40 text-center text-sm md:text-lg">Bulan Tahun</h3>
                         <button onclick="changeMonth(1)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded shadow-sm transition"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-7 gap-1 md:gap-2 mb-2 text-center text-xs font-bold text-gray-500 uppercase">
+                <div class="grid grid-cols-7 gap-1 md:gap-2 mb-2 text-center text-[10px] md:text-xs font-bold text-gray-500 uppercase">
                     <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
                 </div>
                 <div id="calendar-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
@@ -464,9 +484,8 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbynw9VDD5bp4R30UGMWPXZHUCrZAghX22iFanJfMQPFwAGTd_bHa-enGuFKrCxh9MiS/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
         let state = { currentUser: null, users: [], news: [], requests: [] };
-        let currentCalDate = new Date(); // State untuk melacak bulan kalender saat ini
+        let currentCalDate = new Date(); 
 
-        // --- FUNGSI FORMAT TANGGAL ---
         function formatTglIndo(dateStr) {
             if(!dateStr || dateStr === "-" || dateStr === "") return "-";
             try {
@@ -476,10 +495,10 @@
             } catch(e) { return dateStr; }
         }
 
-        // --- KONVERSI KE YYYY-MM-DD UNTUK KALENDER ---
         function toYYYYMMDD(dateStr) {
-            if(!dateStr) return '';
+            if(!dateStr || dateStr === "-" || dateStr === "") return '';
             try {
+                if(typeof dateStr === 'string' && dateStr.length === 10 && dateStr.includes('-')) return dateStr;
                 const dt = new Date(dateStr);
                 if(isNaN(dt.getTime())) return dateStr;
                 return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
@@ -509,7 +528,9 @@
             if(res && res.status === 'success') {
                 state.users = res.data.users || [];
                 state.news = res.data.news || [];
-                state.requests = res.data.requests || [];
+                state.requests = (res.data.requests || []).map(r => ({
+                    ...r, tglLahir: toYYYYMMDD(r.tglLahir), tglReq: toYYYYMMDD(r.tglReq), tglEst: toYYYYMMDD(r.tglEst)
+                }));
             }
             const savedSession = sessionStorage.getItem('mcu_active_user');
             const savedView = sessionStorage.getItem('mcu_current_view');
@@ -533,6 +554,16 @@
             }
         }
         function validateHP(input) { input.value = input.value.replace(/\D/g, ''); }
+        
+        function validateUsername(input) { 
+            if(/\s/.test(input.value)) {
+                document.getElementById('err-username').classList.remove('hidden');
+                input.value = input.value.replace(/\s/g, ''); 
+            } else {
+                document.getElementById('err-username').classList.add('hidden');
+            }
+        }
+
         function validatePassword(input) {
             const val = input.value;
             const err = document.getElementById('err-pwd');
@@ -562,6 +593,7 @@
             const u = document.getElementById('reg-username').value;
             const p = document.getElementById('reg-password').value;
             if(!nama || !hp || !u || !p) return showAlert("Error", "Lengkapi data!");
+            if(/\s/.test(u)) return showAlert("Error", "Username tidak boleh pakai spasi!");
             if(!(/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(p))) return showAlert("Error", "Pass harus huruf+angka!");
             const newUser = { id: Date.now(), nama, email, hp, target, username: u, password: p, role: `siswa_${target}` };
             const res = await fetchAPI('saveUser', newUser);
@@ -575,6 +607,7 @@
             sessionStorage.clear();
             state.currentUser = null;
             document.getElementById('navbar').classList.add('hidden-view');
+            document.getElementById('bottom-nav').classList.add('hidden-view');
             showView('view-auth');
         }
 
@@ -584,29 +617,53 @@
                 const el = document.getElementById(v);
                 if(el) v === viewId ? el.classList.remove('hidden-view') : el.classList.add('hidden-view');
             });
-            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Highlight Tab Bawah yang Aktif
+            document.querySelectorAll('.nav-item-mob').forEach(el => {
+                if(el.getAttribute('data-target') === viewId) {
+                    el.classList.add('text-primary');
+                    el.classList.remove('text-gray-500');
+                } else {
+                    el.classList.remove('text-primary');
+                    el.classList.add('text-gray-500');
+                }
+            });
+
             if(viewId !== 'view-auth') sessionStorage.setItem('mcu_current_view', viewId);
         }
+
         function showApp(role) {
             document.getElementById('navbar').classList.remove('hidden-view');
+            document.getElementById('bottom-nav').classList.remove('hidden-view');
             buildNavbar(role);
             setupDashboard(role);
             showView('view-dashboard');
         }
+
         function buildNavbar(role) {
             let links = role === 'admin' ? 
                 [{n:'Beranda',v:'view-dashboard',i:'fa-home'},{n:'Kelola',v:'view-kelola-pengajuan',i:'fa-list-check'},{n:'Hasil',v:'view-hasil',i:'fa-file-waveform'},{n:'Kalender',v:'view-calendar',i:'fa-calendar'}] :
                 [{n:'Beranda',v:'view-dashboard',i:'fa-home'},{n:'Pengajuan',v:'view-pengajuan',i:'fa-pen-to-square'},{n:'Hasil',v:'view-hasil',i:'fa-file-medical'}];
+            
             let htmlDesk = '', htmlMob = '';
             links.forEach(l => {
+                // Link Navbar Desktop Atas
                 htmlDesk += `<a href="#" onclick="navigate('${l.v}')" class="text-white hover:bg-dark px-3 py-2 rounded text-sm font-medium transition"><i class="fa-solid ${l.i} mr-1"></i> ${l.n}</a>`;
-                htmlMob += `<a href="#" onclick="navigate('${l.v}')" class="text-white hover:bg-dark block px-3 py-2 rounded text-base font-medium"><i class="fa-solid ${l.i} mr-2"></i> ${l.n}</a>`;
+                
+                // Link Menu Bawah HP (Tombol di Tengah)
+                htmlMob += `<a href="#" onclick="navigate('${l.v}')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-primary transition nav-item-mob" data-target="${l.v}">
+                                <i class="fa-solid ${l.i} text-xl mb-1"></i>
+                                <span class="text-[10px] font-bold">${l.n}</span>
+                            </a>`;
             });
-            htmlDesk += `<a href="#" onclick="logout()" class="text-red-300 ml-auto"><i class="fa-solid fa-power-off"></i> Keluar</a>`;
-            htmlMob += `<a href="#" onclick="logout()" class="text-red-300 block px-3 py-2 mt-2 font-medium"><i class="fa-solid fa-power-off mr-2"></i> Keluar</a>`;
+            
+            // Tombol Keluar untuk Desktop
+            htmlDesk += `<a href="#" onclick="logout()" class="text-red-300 hover:text-red-100 ml-auto px-3 py-2 font-medium transition"><i class="fa-solid fa-power-off"></i> Keluar</a>`;
+            
             document.getElementById('nav-links-desktop').innerHTML = htmlDesk;
-            document.getElementById('nav-links-mobile').innerHTML = htmlMob;
+            document.getElementById('bottom-nav-links').innerHTML = htmlMob;
         }
+
         function navigate(viewId) {
             showView(viewId);
             if(viewId === 'view-pengajuan') setupPengajuan();
@@ -614,7 +671,6 @@
             if(viewId === 'view-hasil') renderHasilMedical();
             if(viewId === 'view-calendar') renderCalendar();
         }
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
 
         // --- DASHBOARD ---
         function setupDashboard(role) {
@@ -623,6 +679,7 @@
             document.getElementById('widget-news').classList.remove('hidden'); 
             document.getElementById('btn-add-news').classList.add('hidden');
             const info = document.getElementById('info-penyakit');
+            
             if(role === 'admin') {
                 document.getElementById('dash-admin-greet').classList.remove('hidden');
                 document.getElementById('btn-add-news').classList.remove('hidden');
@@ -677,7 +734,13 @@
             });
         }
         async function saveNews() {
-            const payload = { id: document.getElementById('news-id').value || Date.now(), title: document.getElementById('news-title').value, desc: document.getElementById('news-desc').value, link: document.getElementById('news-link').value, date: new Date().toISOString() };
+            const payload = { 
+                id: document.getElementById('news-id').value || Date.now(), 
+                title: document.getElementById('news-title').value, 
+                desc: document.getElementById('news-desc').value, 
+                link: document.getElementById('news-link').value, 
+                date: toYYYYMMDD(new Date()) 
+            };
             const res = await fetchAPI('saveNews', payload);
             if(res.status === 'success') { location.reload(); }
         }
@@ -715,8 +778,37 @@
         }
         async function processSubmitTW() { await saveRequest('-', '-', 'MCU TAIWAN'); }
         async function saveRequest(a, k, j) {
-            const id = document.getElementById('edit-pengajuan-id').value || Date.now();
-            const payload = { id, userId: state.currentUser.id, nama: state.currentUser.nama, hp: state.currentUser.hp, target: state.currentUser.target, alamat: a, kumiai: k, jenis: j, tglLahir: document.getElementById('pengajuan-tgl-lahir').value, tglReq: new Date().toISOString(), tglEst: '', status: 'Menunggu persetujuan', hasil: 'BELUM', catatan: '' };
+            const editId = document.getElementById('edit-pengajuan-id').value;
+            const id = editId || Date.now();
+            
+            let payload = { 
+                id, 
+                userId: state.currentUser.id, 
+                nama: state.currentUser.nama, 
+                hp: state.currentUser.hp, 
+                target: state.currentUser.target, 
+                alamat: a, 
+                kumiai: k, 
+                jenis: j, 
+                tglLahir: document.getElementById('pengajuan-tgl-lahir').value, 
+                tglReq: toYYYYMMDD(new Date()), 
+                tglEst: '', 
+                status: 'Menunggu persetujuan', 
+                hasil: 'BELUM', 
+                catatan: '' 
+            };
+
+            if (editId) {
+                const existing = state.requests.find(r => r.id == editId);
+                if (existing) {
+                    payload.tglReq = existing.tglReq;
+                    payload.tglEst = existing.tglEst;
+                    payload.status = existing.status;
+                    payload.hasil = existing.hasil;
+                    payload.catatan = existing.catatan;
+                }
+            }
+
             const res = await fetchAPI('saveRequest', payload);
             if(res.status === 'success') location.reload();
         }
@@ -815,13 +907,11 @@
             const qDate = document.getElementById('search-date').value;
             const role = state.currentUser.role;
 
-            // Tampilkan semua pengajuan yang sudah disetujui
             let data = state.requests.filter(r => r.status === 'Disetujui');
             
             if(role === 'siswa_jepang') data = data.filter(r => r.target === 'jepang');
             if(role === 'siswa_taiwan') data = data.filter(r => r.target === 'taiwan');
 
-            // Fitur Pencarian
             if(query) {
                 data = data.filter(r => r.nama.toLowerCase().includes(query) || (r.kumiai && r.kumiai.toLowerCase().includes(query)) || r.jenis.toLowerCase().includes(query));
             }
@@ -838,7 +928,6 @@
                 const isMe = r.userId == state.currentUser.id;
                 const badgeMe = isMe ? '<span class="text-xs text-primary font-bold ml-1">(Anda)</span>' : '';
                 
-                // Sensor kerahasiaan untuk siswa biasa
                 const hpDisplay = (role === 'admin' || isMe) ? r.hp : `<span title="Demi menjaga kerahasiaan" class="cursor-help text-gray-400">****</span>`;
                 const hasilDisplay = (role === 'admin' || isMe) ? 
                     `<span class="font-bold text-xs ${r.hasil==='FIT'?'text-green-600':r.hasil==='UNFIT'?'text-red-600':'text-yellow-600'}">${r.hasil}</span>` : 
@@ -890,7 +979,6 @@
             const grid = document.getElementById('calendar-grid'); grid.innerHTML = '';
             const y = currentCalDate.getFullYear(), m = currentCalDate.getMonth();
             
-            // Update Teks Bulan Tahun
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             document.getElementById('cal-month-year').innerText = `${monthNames[m]} ${y}`;
             
@@ -902,7 +990,6 @@
             for(let d=1; d<=days; d++) {
                 const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 
-                // Gunakan toYYYYMMDD untuk mencocokan tanggal API yang ada "T17:00:00.000Z" nya
                 const list = state.requests.filter(r => r.status === 'Disetujui' && toYYYYMMDD(r.tglEst) === ds);
                 
                 let items = '';
