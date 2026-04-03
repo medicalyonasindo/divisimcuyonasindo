@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL MCU LPK Yonasindo Intra Pratama</title>
+    <title>Portal MCU LPK Yonasindo Intra Pratama</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -35,6 +35,7 @@
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #a5e8c1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #059c44; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     </style>
 </head>
 <body class="text-gray-800 antialiased overflow-x-hidden">
@@ -65,80 +66,115 @@
     </nav>
 
     <nav id="bottom-nav" class="hidden-view md:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-50 pb-safe border-t border-gray-100">
-        <div id="bottom-nav-links" class="flex justify-around items-center h-16">
-            </div>
+        <div id="bottom-nav-links" class="flex justify-around items-center h-16"></div>
     </nav>
 
     <main id="app-container" class="min-h-screen pt-16 pb-24 md:pb-10 flex flex-col items-center w-full">
 
         <!-- ==================== AUTH VIEW ==================== -->
-        <section id="view-auth" class="w-full max-w-md p-6 mt-10 hidden-view fade-in pt-0">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div class="bg-primary p-6 text-center">
-                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-32 w-32 mb-4 object-contain mx-auto drop-shadow-lg">
-                    <h2 class="text-2xl font-bold text-white">Portal MCU</h2>
-                    <p class="text-light text-sm">LPK Yonasindo Intra Pratama</p>
-                </div>
-                <div class="p-6">
-                    <div id="form-login">
-                        <h3 class="text-xl font-bold mb-4 text-center text-secondary">Masuk ke Akun</h3>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                            <input type="text" id="login-username" class="w-full px-4 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none transition-all">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none transition-all">
-                        </div>
-                        <div class="flex items-center mb-6">
-                            <input type="checkbox" id="remember-me" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">Ingat saya</label>
-                        </div>
-                        <button onclick="handleLogin()" class="w-full bg-primary hover:bg-dark text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md">Masuk</button>
-                        <p class="mt-4 text-center text-sm text-gray-600">Belum punya akun? <a href="#" onclick="toggleAuth('register')" class="text-primary hover:underline font-semibold">Daftar sekarang</a></p>
+        <section id="view-auth" class="w-full max-w-[28rem] px-4 my-auto hidden-view fade-in flex flex-col justify-center min-h-[85vh]">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                
+                <!-- HEADER LOGIN MODERN -->
+                <div class="bg-gradient-to-br from-primary via-[#04873b] to-secondary pt-10 pb-8 px-6 text-center relative overflow-hidden">
+                    <!-- Efek cahaya dekoratif -->
+                    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
                     </div>
-
-                    <div id="form-register" class="hidden">
-                        <h3 class="text-xl font-bold mb-4 text-center text-secondary">Registrasi Siswa</h3>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" id="reg-nama" oninput="formatNamaEYD(this)" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
-                            <div class="mt-1 text-[10px] leading-tight text-gray-500 bg-gray-50 p-1.5 rounded border">
-                                Wajib menulis sesuai ejaan EYD Bahasa Indonesia yang baik dan benar!<br>
-                                <span class="text-green-600 font-semibold">Contoh Benar : Elvari Faisal</span><br>
-                                <span class="text-red-500">Contoh Salah : elvari faisal</span><br>
-                                <span class="text-red-500">Contoh Salah : ELVARI FAISAL</span>
+                    
+                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-44 w-44 md:h-48 md:w-48 mb-5 object-contain mx-auto drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-300">
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight relative z-10 drop-shadow-md">Portal MCU</h2>
+                    <p class="text-light text-sm mt-1.5 font-medium tracking-wide relative z-10">LPK Yonasindo Intra Pratama</p>
+                </div>
+                
+                <div class="p-8">
+                    <!-- Login Form -->
+                    <div id="form-login">
+                        <h3 class="text-xl font-bold mb-6 text-center text-gray-800">Selamat Datang 👋</h3>
+                        <div class="mb-5">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Username</label>
+                            <input type="text" id="login-username" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm placeholder-gray-400" placeholder="Masukkan username Anda">
+                        </div>
+                        <div class="mb-5">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Password</label>
+                            <div class="relative">
+                                <input type="password" id="login-password" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm pr-12 placeholder-gray-400" placeholder="••••••••">
+                                <button type="button" onclick="togglePassword('login-password', 'login-eye-icon')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-primary transition-colors focus:outline-none">
+                                    <i id="login-eye-icon" class="fa-solid fa-eye text-lg"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input type="email" id="reg-email" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember-me" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer">
+                                <label for="remember-me" class="ml-2 block text-sm font-medium text-gray-600 cursor-pointer">Ingat saya</label>
+                            </div>
                         </div>
-                        <div class="mb-3 relative">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP</label>
-                            <input type="text" id="reg-hp" oninput="validateHP(this)" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
-                            <p id="err-hp" class="text-red-500 text-xs mt-1 hidden">Harap masukan nomor telfon aktif!</p>
+                        <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-dark text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(5,156,68,0.39)] hover:shadow-[0_6px_20px_rgba(5,156,68,0.23)] transform hover:-translate-y-0.5">
+                            Masuk ke Portal
+                        </button>
+                        <p class="mt-6 text-center text-sm text-gray-500">Belum punya akun? <a href="#" onclick="toggleAuth('register')" class="text-primary hover:text-secondary font-bold underline decoration-2 underline-offset-2 transition-colors">Daftar sekarang</a></p>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="form-register" class="hidden">
+                        <h3 class="text-xl font-bold mb-6 text-center text-gray-800">Pendaftaran Siswa Baru 📝</h3>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Nama Lengkap</label>
+                                <input type="text" id="reg-nama" oninput="formatNamaEYD(this)" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm" placeholder="Nama sesuai KTP">
+                                <div class="mt-2 text-[10px] leading-relaxed text-gray-600 bg-blue-50 p-2.5 rounded-lg border border-blue-100 shadow-sm">
+                                    <span class="font-bold text-blue-800 block mb-1"><i class="fa-solid fa-circle-info"></i> Wajib sesuai ejaan EYD yang benar!</span>
+                                    <span class="text-green-600 font-semibold block"><i class="fa-solid fa-check-circle mr-1"></i>Benar : Elvari Faisal</span>
+                                    <span class="text-red-500 block"><i class="fa-solid fa-times-circle mr-1"></i>Salah : elvari faisal</span>
+                                    <span class="text-red-500 block"><i class="fa-solid fa-times-circle mr-1"></i>Salah : ELVARI FAISAL</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Email</label>
+                                <input type="email" id="reg-email" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm" placeholder="alamat@email.com">
+                            </div>
+                            
+                            <div class="relative">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Nomor HP</label>
+                                <input type="text" id="reg-hp" oninput="validateHP(this)" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm" placeholder="08xxxxxxxxxx">
+                                <p id="err-hp" class="text-red-500 text-xs mt-1.5 hidden font-medium">Harap masukan nomor telepon aktif!</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Negara Tujuan</label>
+                                <select id="reg-negara" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm appearance-none font-medium text-gray-700">
+                                    <option value="jepang">🇯🇵 Jepang</option>
+                                    <option value="taiwan">🇹🇼 Taiwan</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Username</label>
+                                <input type="text" id="reg-username" oninput="validateUsername(this)" placeholder="Pilih username tanpa spasi" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm">
+                                <p class="text-[10.5px] text-blue-600 mt-1.5 font-semibold"><i class="fa-solid fa-lightbulb mr-1"></i> Perhatikan huruf besar & kecilnya!</p>
+                                <p id="err-username" class="text-red-500 text-xs mt-1 hidden font-medium">Username tidak boleh pakai spasi!</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="reg-password" oninput="validatePassword(this)" placeholder="Kombinasi huruf & angka" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm pr-12">
+                                    <button type="button" onclick="togglePassword('reg-password', 'reg-eye-icon')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-primary transition-colors focus:outline-none">
+                                        <i id="reg-eye-icon" class="fa-solid fa-eye text-lg"></i>
+                                    </button>
+                                </div>
+                                <p id="err-pwd" class="text-red-500 text-xs mt-1.5 hidden font-medium">Password wajib kombinasi huruf dan angka!</p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Negara Tujuan</label>
-                            <select id="reg-negara" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
-                                <option value="jepang">Jepang</option>
-                                <option value="taiwan">Taiwan</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                            <input type="text" id="reg-username" oninput="validateUsername(this)" placeholder="Tanpa spasi" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
-                            <p class="text-[10px] text-blue-600 mt-1 font-medium">* Perhatikan huruf besar dan kecilnya!</p>
-                            <p id="err-username" class="text-red-500 text-xs mt-1 hidden">Username tidak boleh pakai spasi!</p>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input type="password" id="reg-password" oninput="validatePassword(this)" placeholder="Kombinasi huruf & angka" class="w-full px-3 py-2 border rounded-lg focus:ring-primary focus:border-primary outline-none text-sm">
-                            <p id="err-pwd" class="text-red-500 text-xs mt-1 hidden">Password wajib kombinasi huruf dan angka!</p>
-                        </div>
-                        <button onclick="handleRegister()" class="w-full bg-secondary hover:bg-dark text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md">Daftar</button>
-                        <p class="mt-4 text-center text-sm text-gray-600">Sudah punya akun? <a href="#" onclick="toggleAuth('login')" class="text-primary hover:underline font-semibold">Masuk di sini</a></p>
+
+                        <button onclick="handleRegister()" class="w-full mt-8 bg-gradient-to-r from-secondary to-dark hover:from-dark hover:to-secondary text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(1,89,38,0.39)] hover:shadow-[0_6px_20px_rgba(1,89,38,0.23)] transform hover:-translate-y-0.5">
+                            Daftarkan Akun
+                        </button>
+                        <p class="mt-6 text-center text-sm text-gray-500">Sudah punya akun? <a href="#" onclick="toggleAuth('login')" class="text-primary hover:text-secondary font-bold underline decoration-2 underline-offset-2 transition-colors">Masuk di sini</a></p>
                     </div>
                 </div>
             </div>
@@ -231,10 +267,8 @@
                             <button onclick="cekUrin('coklat')" class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm bg-[#451a03] hover:scale-110 transition-transform" title="Cokelat"></button>
                         </div>
                         
-                        <!-- Hasil Urin -->
                         <div id="urin-result" class="hidden p-4 rounded-lg border bg-gray-50 text-sm shadow-inner transition-all"></div>
 
-                        <!-- Info Berbuih -->
                         <div class="mt-4 bg-yellow-50 p-3 rounded-lg border border-yellow-200 text-xs text-yellow-800">
                             <strong><i class="fa-solid fa-circle-info mr-1"></i> Urin Berbuih atau Berbusa?</strong><br>
                             Kemungkinan ada masalah pada ginjal atau kelebihan konsumsi protein. Jika terus berlanjut, segera kurangi makanan tinggi protein dan perbanyak minum air putih!
@@ -528,56 +562,33 @@
 
     <!-- Script Utama -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbzykzl1z4q4AA-83qNM8HbpGMyXUhJ1Tc8KROUDOO2SDqJNVRpDTbhoESu-yPLP-8A/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbynw9VDD5bp4R30UGMWPXZHUCrZAghX22iFanJfMQPFwAGTd_bHa-enGuFKrCxh9MiS/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
         let state = { currentUser: null, users: [], news: [], requests: [] };
         let currentCalDate = new Date(); 
 
-        // ==========================================
-        // FITUR GEMINI AI INTEGRATION ✨
-        // ==========================================
-        async function callGeminiAPI(userPrompt, systemPrompt = "", useJSON = false, retries = 5, delay = 1000) {
-            const apiKey = ""; // API Key disuntikkan secara otomatis oleh sistem saat runtime
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-            const payload = {
-                contents: [{ parts: [{ text: userPrompt }] }]
-            };
-
-            if (systemPrompt) {
-                payload.systemInstruction = { parts: [{ text: systemPrompt }] };
-            }
-
-            if (useJSON) {
-                payload.generationConfig = { responseMimeType: "application/json" };
-            }
-
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                    const result = await response.json();
-                    return useJSON 
-                        ? JSON.parse(result.candidates[0].content.parts[0].text) 
-                        : result.candidates[0].content.parts[0].text;
-                } catch (error) {
-                    if (i === retries - 1) {
-                        console.error("Gemini API Error after retries:", error);
-                        return useJSON ? null : "Maaf, Asisten AI sedang sibuk. Silakan coba lagi nanti.";
-                    }
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2; // Exponential backoff
-                }
+        // Fungsi Komunikasi API
+        async function fetchAPI(action, payload = {}) {
+            document.getElementById('loader').style.display = 'flex';
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action, payload })
+                });
+                const res = await response.json();
+                document.getElementById('loader').style.display = 'none';
+                return res;
+            } catch (error) {
+                document.getElementById('loader').style.display = 'none';
+                showAlert("Error", "Gagal terhubung ke database.");
+                return { status: 'error' };
             }
         }
 
-        // Fitur AI 1: Asisten Medis Siswa
+        // ==========================================
+        // FITUR GEMINI AI INTEGRATION DARI BACKEND ✨
+        // ==========================================
         async function askAI() {
             const questionInput = document.getElementById('ai-question');
             const question = questionInput.value.trim();
@@ -592,17 +603,20 @@
 
             const systemInstruction = `Kamu adalah 'Yona', asisten medis AI yang ramah dari LPK Yonasindo Intra Pratama. Jawablah pertanyaan seputar aturan medis, MCU (Medical Check Up), dan persiapan fisik sebelum MCU untuk calon tenaga kerja ke Jepang dan Taiwan. Gunakan bahasa Indonesia yang santai, memotivasi, dan mudah dipahami oleh siswa yang mungkin kurang terbiasa dengan bahasa medis. Jawaban harus pendek (maksimal 2 paragraf). Jangan memberikan diagnosa medis yang berat, sarankan konsultasi ke dokter atau Kevin Sensei (penanggung jawab) jika ada penyakit serius. Gunakan emoji yang relevan.`;
 
-            let answerText = await callGeminiAPI(question, systemInstruction);
+            // Memanggil API via Google Sheets Backend
+            const res = await fetchAPI('askAI', { prompt: question, systemInstruction: systemInstruction, useJSON: false });
             
-            // Hapus markdown basic (seperti **bold**) agar rapi di plain text UI
-            answerText = answerText.replace(/\*\*(.*?)\*\*/g, '$1');
+            let answerText = "Maaf, Yona sedang tidak bisa menjawab saat ini. Silakan coba beberapa saat lagi.";
+            if(res.status === 'success' && res.data) {
+                // Menghilangkan format bold bawaan AI agar rapi
+                answerText = typeof res.data === 'string' ? res.data.replace(/\*\*(.*?)\*\*/g, '$1') : "Respons tidak valid.";
+            }
 
             loadingBox.classList.add('hidden');
             answerBox.innerHTML = `<strong>Pertanyaan:</strong> <em>"${question}"</em><br><br><strong>Jawaban Yona ✨:</strong><br>${answerText}`;
             answerBox.classList.remove('hidden');
         }
 
-        // Fitur AI 2: Penulis Berita Admin
         async function generateNewsAI() {
             const topicInput = document.getElementById('news-ai-prompt');
             const topic = topicInput.value.trim();
@@ -617,18 +631,19 @@
 
             const prompt = `Buatkan 1 judul berita headline yang sangat menarik (clickbait yang positif/edukatif) dan 1 deskripsi singkat (maksimal 20 kata) tentang topik berikut: "${topic}". Berita ini ditujukan untuk siswa LPK Yonasindo yang akan berangkat kerja magang/tokutei ginou ke Jepang atau Taiwan. Jangan sertakan tag markdown JSON. Kembalikan HANYA format JSON valid dengan key "title" dan "desc".`;
 
-            const result = await callGeminiAPI(prompt, "", true);
+            const res = await fetchAPI('askAI', { prompt: prompt, systemInstruction: "", useJSON: true });
 
-            if(result && result.title && result.desc) {
-                document.getElementById('news-title').value = result.title;
-                document.getElementById('news-desc').value = result.desc;
+            if(res.status === 'success' && res.data && res.data.title && res.data.desc) {
+                document.getElementById('news-title').value = res.data.title;
+                document.getElementById('news-desc').value = res.data.desc;
             } else {
-                showAlert("Error AI", "Gagal merumuskan berita. Silakan coba lagi.");
+                showAlert("Error AI", "Gagal merumuskan berita. Pastikan backend sudah terkonfigurasi dengan kunci API.");
             }
 
             btn.innerHTML = `Buat ✨`;
             btn.disabled = false;
         }
+
         // ==========================================
 
 
@@ -649,24 +664,6 @@
                 if(isNaN(dt.getTime())) return dateStr;
                 return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
             } catch(e) { return dateStr; }
-        }
-
-        async function fetchAPI(action, payload = {}) {
-            document.getElementById('loader').style.display = 'flex';
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action, payload })
-                });
-                const res = await response.json();
-                document.getElementById('loader').style.display = 'none';
-                return res;
-            } catch (error) {
-                document.getElementById('loader').style.display = 'none';
-                showAlert("Error", "Gagal terhubung ke database.");
-                return { status: 'error' };
-            }
         }
 
         window.onload = async () => {
@@ -724,6 +721,22 @@
             if(val.length > 0 && !(/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(val))) err.classList.remove('hidden');
             else err.classList.add('hidden');
         }
+
+        // FITUR BARU: Toggle Password Mata
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
         function handleLogin() {
             const u = document.getElementById('login-username').value;
             const p = document.getElementById('login-password').value;
@@ -990,12 +1003,25 @@
             state.currentUser.role === 'siswa_jepang' ? document.getElementById('pengajuan-jepang-fields').classList.remove('hidden') : document.getElementById('pengajuan-jepang-fields').classList.add('hidden');
         }
         function validateKumiai(input) { if(/[^\x00-\x7F]/.test(input.value)) document.getElementById('err-kumiai').classList.remove('hidden'); else document.getElementById('err-kumiai').classList.add('hidden'); }
+        
         function switchTab(t, b) {
             document.getElementById('tab-form-pengajuan').classList.add('hidden');
             document.getElementById('tab-riwayat-pengajuan').classList.add('hidden');
             document.getElementById(t).classList.remove('hidden');
+            
+            // Memindahkan garis hijau penanda tab aktif
+            if (b) {
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    btn.classList.add('text-gray-500');
+                });
+                b.classList.remove('text-gray-500');
+                b.classList.add('text-primary', 'border-b-2', 'border-primary');
+            }
+            
             if(t === 'tab-riwayat-pengajuan') renderRiwayatPengajuan();
         }
+
         function submitPengajuan(e) {
             e.preventDefault();
             if(state.currentUser.role === 'siswa_jepang') openModal('modal-syarat-jepang');
@@ -1040,7 +1066,22 @@
             }
 
             const res = await fetchAPI('saveRequest', payload);
-            if(res.status === 'success') location.reload();
+            if(res.status === 'success') {
+                if (editId) {
+                    const idx = state.requests.findIndex(r => r.id == editId);
+                    if (idx > -1) state.requests[idx] = payload;
+                    showAlert("Berhasil", "Pengajuan MCU berhasil diperbarui!");
+                } else {
+                    state.requests.push(payload);
+                    showAlert("Berhasil", "Pengajuan MCU berhasil dikirim!");
+                }
+                
+                // Bersihkan formulir dan ganti tab secara otomatis tanpa reload page
+                cancelEdit(); 
+                const btnRiwayat = document.querySelectorAll('.tab-btn')[1];
+                switchTab('tab-riwayat-pengajuan', btnRiwayat);
+                updateStats();
+            }
         }
         function renderRiwayatPengajuan() {
             const my = state.requests.filter(r => r.userId == state.currentUser.id);
@@ -1067,9 +1108,22 @@
                 document.getElementById('pengajuan-kumiai').value = r.kumiai;
                 document.getElementById('pengajuan-jenis').value = r.jenis;
             }
-            switchTab('tab-form-pengajuan');
+            
+            document.getElementById('form-pengajuan-title').innerText = "Edit Pengajuan Medical";
+            document.getElementById('btn-submit-pengajuan').innerText = "Update Pengajuan";
+            document.getElementById('btn-cancel-edit').classList.remove('hidden');
+
+            switchTab('tab-form-pengajuan', document.querySelectorAll('.tab-btn')[0]);
         }
-        function cancelEdit() { document.getElementById('form-mcu').reset(); document.getElementById('edit-pengajuan-id').value = ""; setupPengajuan(); }
+        
+        function cancelEdit() { 
+            document.getElementById('form-mcu').reset(); 
+            document.getElementById('edit-pengajuan-id').value = ""; 
+            document.getElementById('form-pengajuan-title').innerText = "Formulir Pengajuan Medical";
+            document.getElementById('btn-submit-pengajuan').innerText = "Submit Pengajuan";
+            document.getElementById('btn-cancel-edit').classList.add('hidden');
+            setupPengajuan(); 
+        }
 
         // --- ADMIN KELOLA ---
         function renderKelolaPengajuan() {
@@ -1106,6 +1160,17 @@
             document.getElementById('tab-hasil-saya').classList.add('hidden');
             document.getElementById('tab-data-medical').classList.add('hidden');
             document.getElementById(t).classList.remove('hidden');
+            
+            // Pindahkan garis hijau penanda tab aktif di halaman hasil
+            if (b) {
+                document.querySelectorAll('.tab-hasil-btn').forEach(btn => {
+                    btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    btn.classList.add('text-gray-500');
+                });
+                b.classList.remove('text-gray-500');
+                b.classList.add('text-primary', 'border-b-2', 'border-primary');
+            }
+
             t === 'tab-hasil-saya' ? renderHasilSaya() : renderDataMedical();
         }
         function renderHasilMedical() {
@@ -1114,7 +1179,10 @@
                 document.getElementById('tab-hasil-saya').classList.add('hidden');
                 document.getElementById('tab-data-medical').classList.remove('hidden');
                 renderDataMedical();
-            } else switchTabHasil('tab-hasil-saya');
+            } else {
+                document.getElementById('hasil-tabs-container').classList.remove('hidden');
+                switchTabHasil('tab-hasil-saya', document.querySelectorAll('.tab-hasil-btn')[0]);
+            }
         }
         function renderHasilSaya() {
             const my = state.requests.filter(r => r.userId == state.currentUser.id && r.hasil !== 'BELUM');
