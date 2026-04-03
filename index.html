@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal MCU LPK Yonasindo Intra Pratama</title>
+    <title>PORTAL MCU LPK Yonasindo Intra Pratama</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -528,7 +528,7 @@
 
     <!-- Script Utama -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbynw9VDD5bp4R30UGMWPXZHUCrZAghX22iFanJfMQPFwAGTd_bHa-enGuFKrCxh9MiS/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzykzl1z4q4AA-83qNM8HbpGMyXUhJ1Tc8KROUDOO2SDqJNVRpDTbhoESu-yPLP-8A/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
         let state = { currentUser: null, users: [], news: [], requests: [] };
         let currentCalDate = new Date(); 
@@ -537,7 +537,7 @@
         // FITUR GEMINI AI INTEGRATION ✨
         // ==========================================
         async function callGeminiAPI(userPrompt, systemPrompt = "", useJSON = false, retries = 5, delay = 1000) {
-            const apiKey = "AIzaSyBJ-fRfUVjGmBZExe36LIEQkdPTSQiYI28"; // API Key disuntikkan secara otomatis oleh sistem saat runtime
+            const apiKey = ""; // API Key disuntikkan secara otomatis oleh sistem saat runtime
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             const payload = {
