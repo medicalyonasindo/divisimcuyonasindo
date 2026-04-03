@@ -29,7 +29,6 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
-        /* Safe area padding untuk layar HP modern (iPhone dll) */
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -42,7 +41,7 @@
 
     <div id="loader" class="fixed inset-0 bg-white/90 z-[100] flex-col items-center justify-center fade-in" style="display: none;">
         <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/6dbec19efe593667e0d85631dd9629dc.png" alt="Logo Yonasindo" class="w-40 h-40 mb-4 animate-heartbeat drop-shadow-lg object-contain">
-        <p class="text-secondary font-bold animate-pulse">Memproses Data...</p>
+        <p class="text-secondary font-bold animate-pulse" id="loader-text">Memproses Data...</p>
     </div>
 
     <nav id="navbar" class="bg-secondary text-white shadow-lg hidden-view fixed w-full z-40 top-0">
@@ -74,15 +73,11 @@
         <!-- ==================== AUTH VIEW ==================== -->
         <section id="view-auth" class="w-full max-w-[28rem] px-4 my-auto hidden-view fade-in flex flex-col justify-center min-h-[85vh]">
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-                
-                <!-- HEADER LOGIN MODERN -->
                 <div class="bg-gradient-to-br from-primary via-[#04873b] to-secondary pt-10 pb-8 px-6 text-center relative overflow-hidden">
-                    <!-- Efek cahaya dekoratif -->
                     <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
                         <div class="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
                         <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
                     </div>
-                    
                     <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/6dbec19efe593667e0d85631dd9629dc.png" alt="Logo" class="h-44 w-44 md:h-48 md:w-48 mb-5 object-contain mx-auto drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-300">
                     <h2 class="text-3xl font-extrabold text-white tracking-tight relative z-10 drop-shadow-md">Portal MCU</h2>
                     <p class="text-light text-sm mt-1.5 font-medium tracking-wide relative z-10">LPK Yonasindo Intra Pratama</p>
@@ -120,7 +115,6 @@
                     <!-- Register Form -->
                     <div id="form-register" class="hidden">
                         <h3 class="text-xl font-bold mb-6 text-center text-gray-800">Pendaftaran Siswa Baru 📝</h3>
-                        
                         <div class="space-y-5">
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Nama Lengkap</label>
@@ -132,18 +126,15 @@
                                     <span class="text-red-500 block"><i class="fa-solid fa-times-circle mr-1"></i>Salah : ELVARI FAISAL</span>
                                 </div>
                             </div>
-                            
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Email</label>
                                 <input type="email" id="reg-email" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm" placeholder="alamat@email.com">
                             </div>
-                            
                             <div class="relative">
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Nomor HP</label>
                                 <input type="text" id="reg-hp" oninput="validateHP(this)" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm" placeholder="08xxxxxxxxxx">
                                 <p id="err-hp" class="text-red-500 text-xs mt-1.5 hidden font-medium">Harap masukan nomor telepon aktif!</p>
                             </div>
-                            
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Negara Tujuan</label>
                                 <select id="reg-negara" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm appearance-none font-medium text-gray-700">
@@ -151,14 +142,12 @@
                                     <option value="taiwan">🇹🇼 Taiwan</option>
                                 </select>
                             </div>
-                            
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Username</label>
                                 <input type="text" id="reg-username" oninput="validateUsername(this)" placeholder="Pilih username tanpa spasi" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white outline-none transition-all duration-200 text-sm">
                                 <p class="text-[10.5px] text-blue-600 mt-1.5 font-semibold"><i class="fa-solid fa-lightbulb mr-1"></i> Perhatikan huruf besar & kecilnya!</p>
                                 <p id="err-username" class="text-red-500 text-xs mt-1 hidden font-medium">Username tidak boleh pakai spasi!</p>
                             </div>
-                            
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Password</label>
                                 <div class="relative">
@@ -170,10 +159,7 @@
                                 <p id="err-pwd" class="text-red-500 text-xs mt-1.5 hidden font-medium">Password wajib kombinasi huruf dan angka!</p>
                             </div>
                         </div>
-
-                        <button onclick="handleRegister()" class="w-full mt-8 bg-gradient-to-r from-secondary to-dark hover:from-dark hover:to-secondary text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(1,89,38,0.39)] hover:shadow-[0_6px_20px_rgba(1,89,38,0.23)] transform hover:-translate-y-0.5">
-                            Daftarkan Akun
-                        </button>
+                        <button onclick="handleRegister()" class="w-full mt-8 bg-gradient-to-r from-secondary to-dark hover:from-dark hover:to-secondary text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(1,89,38,0.39)] hover:shadow-[0_6px_20px_rgba(1,89,38,0.23)] transform hover:-translate-y-0.5">Daftarkan Akun</button>
                         <p class="mt-6 text-center text-sm text-gray-500">Sudah punya akun? <a href="#" onclick="toggleAuth('login')" class="text-primary hover:text-secondary font-bold underline decoration-2 underline-offset-2 transition-colors">Masuk di sini</a></p>
                     </div>
                 </div>
@@ -204,8 +190,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="md:col-span-2 space-y-6">
-                    
-                    <!-- FITUR BARU: ASISTEN AI GEMINI ✨ -->
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-2xl shadow-sm border border-blue-100">
                         <h2 class="text-xl font-bold text-blue-800 border-b border-blue-200 pb-2 mb-3"><i class="fa-solid fa-robot mr-2"></i> Tanya Asisten Medis AI ✨</h2>
                         <p class="text-xs text-blue-700 mb-3 leading-relaxed">Punya pertanyaan seputar medical check-up, pola makan, atau persiapan fisik? Tanyakan langsung pada asisten pintar kami! (Didukung oleh Google Gemini AI)</p>
@@ -217,13 +201,11 @@
                         <div id="ai-answer" class="hidden bg-white p-3 rounded-lg border border-blue-200 text-sm text-gray-800 shadow-inner whitespace-pre-wrap leading-relaxed"></div>
                     </div>
 
-                    <!-- Penyakit Dihindari -->
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                         <h2 class="text-xl font-bold text-secondary border-b pb-2 mb-3"><i class="fa-solid fa-virus-slash mr-2"></i> Informasi Penyakit & Kesehatan</h2>
                         <div id="info-penyakit" class="text-sm text-gray-700 space-y-3"></div>
                     </div>
                     
-                    <!-- Kesehatan Gigi -->
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                         <h2 class="text-xl font-bold text-secondary border-b pb-2 mb-3"><i class="fa-solid fa-tooth mr-2"></i> Kesehatan Gigi</h2>
                         <p class="text-sm text-gray-700 leading-relaxed mb-3">
@@ -234,7 +216,6 @@
                         </div>
                     </div>
                     
-                    <!-- Kalkulator BMI -->
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-br from-white to-bglight">
                         <h2 class="text-xl font-bold text-secondary border-b pb-2 mb-4"><i class="fa-solid fa-scale-balanced mr-2"></i> Kalkulator BMI Internasional</h2>
                         <div class="flex flex-col sm:flex-row gap-4 mb-4">
@@ -251,7 +232,6 @@
                         <div id="bmi-result" class="mt-4 hidden p-4 rounded-lg border"></div>
                     </div>
 
-                    <!-- Pengecekan Warna Urin -->
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                         <h2 class="text-xl font-bold text-secondary border-b pb-2 mb-3"><i class="fa-solid fa-droplet text-blue-400 mr-2"></i> Cek Kesehatan Melalui Warna Urin</h2>
                         <p class="text-sm text-gray-600 mb-4 font-medium">Coba cek kesehatan kamu melalui warna urin. Tekan lingkaran warna di bawah ini yang sesuai dengan kondisimu:</p>
@@ -266,9 +246,7 @@
                             <button onclick="cekUrin('merah')" class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm bg-[#dc2626] hover:scale-110 transition-transform" title="Merah"></button>
                             <button onclick="cekUrin('coklat')" class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm bg-[#451a03] hover:scale-110 transition-transform" title="Cokelat"></button>
                         </div>
-                        
                         <div id="urin-result" class="hidden p-4 rounded-lg border bg-gray-50 text-sm shadow-inner transition-all"></div>
-
                         <div class="mt-4 bg-yellow-50 p-3 rounded-lg border border-yellow-200 text-xs text-yellow-800">
                             <strong><i class="fa-solid fa-circle-info mr-1"></i> Urin Berbuih atau Berbusa?</strong><br>
                             Kemungkinan ada masalah pada ginjal atau kelebihan konsumsi protein. Jika terus berlanjut, segera kurangi makanan tinggi protein dan perbanyak minum air putih!
@@ -276,7 +254,6 @@
                     </div>
                 </div>
 
-                <!-- Kolom Kanan (Statistik & Berita) -->
                 <div class="space-y-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                         <h2 class="text-lg font-bold text-secondary border-b pb-2 mb-3"><i class="fa-solid fa-chart-pie mr-2"></i> Statistik Medical</h2>
@@ -401,9 +378,7 @@
                                 <input type="date" id="search-date" onchange="renderDataMedical()" class="px-3 py-2 border rounded-xl text-sm focus:ring-primary focus:border-primary">
                             </div>
                         </div>
-                        
                         <div id="data-medical-container" class="space-y-4"></div>
-                        
                     </div>
                 </div>
             </div>
@@ -467,7 +442,6 @@
         </div>
     </div>
 
-    <!-- MODAL BERITA DENGAN FITUR AI ✨ -->
     <div id="modal-add-news" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center fade-in">
         <div class="bg-white rounded-xl shadow-2xl p-6 max-w-lg w-full mx-4">
             <h3 class="text-lg font-bold text-secondary mb-4 border-b pb-2" id="news-modal-title">Tambah Berita</h3>
@@ -511,37 +485,70 @@
         </div>
     </div>
 
+    <!-- MODAL INPUT HASIL DENGAN UPLOAD PDF -->
     <div id="modal-admin-hasil" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center fade-in">
         <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4">
-            <h3 class="text-lg font-bold text-secondary mb-3">Input Hasil</h3>
+            <h3 class="text-lg font-bold text-secondary mb-3 border-b pb-2">Input Hasil Medical</h3>
             <input type="hidden" id="admin-hasil-id">
-            <div class="space-y-3 mb-5">
-                <select id="admin-hasil-status" class="w-full p-2 border rounded text-sm">
-                    <option value="BELUM">Belum Ada Hasil</option>
-                    <option value="SUDAH MCU, MENUNGGU HASIL">SUDAH MCU, MENUNGGU HASIL</option>
-                    <option value="FIT">FIT</option>
-                    <option value="FIT WITH NOTE">FIT WITH NOTE</option>
-                    <option value="UNFIT">UNFIT</option>
-                </select>
-                <textarea id="admin-hasil-catatan" rows="3" class="w-full p-2 border rounded text-sm" placeholder="Catatan..."></textarea>
+            <div class="space-y-4 mb-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Status Hasil</label>
+                    <select id="admin-hasil-status" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-primary focus:border-primary">
+                        <option value="BELUM">Belum Ada Hasil</option>
+                        <option value="SUDAH MCU, MENUNGGU HASIL">SUDAH MCU, MENUNGGU HASIL</option>
+                        <option value="FIT">FIT</option>
+                        <option value="FIT WITH NOTE">FIT WITH NOTE</option>
+                        <option value="UNFIT">UNFIT</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Catatan Tambahan</label>
+                    <textarea id="admin-hasil-catatan" rows="2" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:ring-primary focus:border-primary" placeholder="Tuliskan catatan dokter..."></textarea>
+                </div>
+
+                <!-- DRAG AND DROP PDF AREA -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Unggah Hasil PDF <span class="text-gray-400 font-normal">(Opsional)</span></label>
+                    <div id="drop-zone" class="border-2 border-dashed border-blue-300 bg-blue-50 rounded-xl p-4 text-center hover:bg-blue-100 transition cursor-pointer relative overflow-hidden group">
+                        <input type="file" id="admin-hasil-file" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <i class="fa-solid fa-file-pdf text-3xl text-blue-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                        <p class="text-xs text-blue-800 font-medium">Tarik & Lepas PDF di sini<br>atau <span class="font-bold underline">Pilih File</span></p>
+                        <p class="text-[10px] text-gray-400 mt-1">Maksimal 3MB</p>
+                        
+                        <!-- Area Nama File -->
+                        <div id="file-name-display" class="hidden mt-3 bg-white p-2 rounded border border-blue-200 flex items-center justify-between z-20 relative">
+                            <span class="text-[11px] font-bold text-green-700 truncate mr-2" id="file-name-text">filename.pdf</span>
+                            <button type="button" onclick="hapusFilePDF(event)" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="flex gap-3 justify-end">
-                <button onclick="closeModal('modal-admin-hasil')" class="bg-gray-200 px-4 py-2 rounded text-sm">Batal</button>
-                <button onclick="saveAdminHasil()" class="bg-primary text-white px-4 py-2 rounded text-sm">Kirim</button>
+            <div class="flex gap-3 justify-end pt-2 border-t border-gray-100">
+                <button onclick="closeModal('modal-admin-hasil')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold">Batal</button>
+                <button onclick="saveAdminHasil()" id="btn-kirim-hasil" class="bg-primary hover:bg-dark text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md transition-colors w-28">Simpan</button>
             </div>
         </div>
     </div>
 
-    <!-- Script Utama -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbynw9VDD5bp4R30UGMWPXZHUCrZAghX22iFanJfMQPFwAGTd_bHa-enGuFKrCxh9MiS/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbw6_t6eFeM9xFsIeGR6xG2PiW-Tru1zMqpvOta-F3THhGgQb58Xa6RS18C1ZR711WnE/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
         let state = { currentUser: null, users: [], news: [], requests: [] };
         let currentCalDate = new Date(); 
 
+        // Variabel untuk menyimpan data file PDF
+        let selectedFileBase64 = null;
+        let selectedFileName = null;
+        let selectedFileMime = null;
+
         // Fungsi Komunikasi API
         async function fetchAPI(action, payload = {}) {
-            document.getElementById('loader').style.display = 'flex';
+            if(action !== 'saveRequest' || !payload.fileData) {
+                document.getElementById('loader').style.display = 'flex';
+                document.getElementById('loader-text').innerText = 'Memproses Data...';
+            }
             try {
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -553,13 +560,13 @@
                 return res;
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                showAlert("Error", "Gagal terhubung ke database.");
+                showAlert("Error", "Gagal terhubung ke database. Coba lagi.");
                 return { status: 'error' };
             }
         }
 
         // ==========================================
-        // FITUR GEMINI AI INTEGRATION DARI BACKEND ✨
+        // FITUR GEMINI AI & UTILS LAMA
         // ==========================================
         async function askAI() {
             const questionInput = document.getElementById('ai-question');
@@ -575,12 +582,10 @@
 
             const systemInstruction = `Kamu adalah 'Yona', asisten medis AI yang ramah dari LPK Yonasindo Intra Pratama. Jawablah pertanyaan seputar aturan medis, MCU (Medical Check Up), dan persiapan fisik sebelum MCU untuk calon tenaga kerja ke Jepang dan Taiwan. Gunakan bahasa Indonesia yang santai, memotivasi, dan mudah dipahami oleh siswa yang mungkin kurang terbiasa dengan bahasa medis. Jawaban harus pendek (maksimal 2 paragraf). Jangan memberikan diagnosa medis yang berat, sarankan konsultasi ke dokter atau Kevin Sensei (penanggung jawab) jika ada penyakit serius. Gunakan emoji yang relevan.`;
 
-            // Memanggil API via Google Sheets Backend
             const res = await fetchAPI('askAI', { prompt: question, systemInstruction: systemInstruction, useJSON: false });
             
             let answerText = "Maaf, Yona sedang tidak bisa menjawab saat ini. Silakan coba beberapa saat lagi.";
             if(res.status === 'success' && res.data) {
-                // Menghilangkan format bold bawaan AI agar rapi
                 answerText = typeof res.data === 'string' ? res.data.replace(/\*\*(.*?)\*\*/g, '$1') : "Respons tidak valid.";
             }
 
@@ -592,10 +597,7 @@
         async function generateNewsAI() {
             const topicInput = document.getElementById('news-ai-prompt');
             const topic = topicInput.value.trim();
-            if(!topic) {
-                showAlert("Peringatan", "Ketikkan topik berita terlebih dahulu!");
-                return;
-            }
+            if(!topic) return showAlert("Peringatan", "Ketikkan topik berita terlebih dahulu!");
 
             const btn = document.getElementById('btn-news-ai');
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
@@ -615,9 +617,6 @@
             btn.innerHTML = `Buat ✨`;
             btn.disabled = false;
         }
-
-        // ==========================================
-
 
         function formatTglIndo(dateStr) {
             if(!dateStr || dateStr === "-" || dateStr === "") return "-";
@@ -658,7 +657,7 @@
             }
         };
 
-        // --- AUTH ---
+        // --- AUTH & LOGIN ---
         function toggleAuth(type) {
             if(type === 'register') {
                 document.getElementById('form-login').classList.add('hidden');
@@ -694,7 +693,6 @@
             else err.classList.add('hidden');
         }
 
-        // FITUR BARU: Toggle Password Mata
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId);
             const icon = document.getElementById(iconId);
@@ -718,7 +716,7 @@
             }
             const user = state.users.find(x => x.username === u && x.password === p);
             if(user) { state.currentUser = { role: `siswa_${user.target}`, ...user }; loginSuccess(); }
-            else showAlert("Gagal", "User/Pass salah!");
+            else showAlert("Gagal", "Username atau Password salah!");
         }
         function loginSuccess() {
             sessionStorage.setItem('mcu_active_user', JSON.stringify(state.currentUser));
@@ -732,14 +730,14 @@
             const target = document.getElementById('reg-negara').value;
             const u = document.getElementById('reg-username').value;
             const p = document.getElementById('reg-password').value;
-            if(!nama || !hp || !u || !p) return showAlert("Error", "Lengkapi data!");
+            if(!nama || !hp || !u || !p) return showAlert("Error", "Lengkapi seluruh data!");
             if(/\s/.test(u)) return showAlert("Error", "Username tidak boleh pakai spasi!");
-            if(!(/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(p))) return showAlert("Error", "Pass harus huruf+angka!");
+            if(!(/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(p))) return showAlert("Error", "Password wajib huruf dan angka!");
             const newUser = { id: Date.now(), nama: nama, email, hp, target, username: u, password: p, role: `siswa_${target}` };
             const res = await fetchAPI('saveUser', newUser);
             if(res.status === 'success') {
                 state.users.push(newUser);
-                showAlert("Sukses", "Berhasil daftar!");
+                showAlert("Sukses", "Berhasil mendaftar! Silahkan masuk.");
                 toggleAuth('login');
             }
         }
@@ -751,7 +749,7 @@
             showView('view-auth');
         }
 
-        // --- NAV ---
+        // --- NAVIGASI ---
         function showView(viewId) {
             ['view-auth','view-dashboard','view-pengajuan','view-kelola-pengajuan','view-hasil','view-calendar'].forEach(v => {
                 const el = document.getElementById(v);
@@ -902,7 +900,6 @@
             `;
         }
 
-        // --- CEK WARNA URIN ---
         const urinData = {
             'bening': { title: 'Bening', desc: 'Sangat terhidrasi. Anda mungkin meminum terlalu banyak air.', color: 'text-gray-600' },
             'kuning_normal': { title: 'Kuning Normal', desc: 'Normal. Tubuh Anda dalam keadaan terhidrasi dengan baik.', color: 'text-yellow-600' },
@@ -975,13 +972,11 @@
             state.currentUser.role === 'siswa_jepang' ? document.getElementById('pengajuan-jepang-fields').classList.remove('hidden') : document.getElementById('pengajuan-jepang-fields').classList.add('hidden');
         }
         function validateKumiai(input) { if(/[^\x00-\x7F]/.test(input.value)) document.getElementById('err-kumiai').classList.remove('hidden'); else document.getElementById('err-kumiai').classList.add('hidden'); }
-        
         function switchTab(t, b) {
             document.getElementById('tab-form-pengajuan').classList.add('hidden');
             document.getElementById('tab-riwayat-pengajuan').classList.add('hidden');
             document.getElementById(t).classList.remove('hidden');
             
-            // Memindahkan garis hijau penanda tab aktif
             if (b) {
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
@@ -993,7 +988,6 @@
             
             if(t === 'tab-riwayat-pengajuan') renderRiwayatPengajuan();
         }
-
         function submitPengajuan(e) {
             e.preventDefault();
             if(state.currentUser.role === 'siswa_jepang') openModal('modal-syarat-jepang');
@@ -1034,6 +1028,8 @@
                     payload.status = existing.status;
                     payload.hasil = existing.hasil;
                     payload.catatan = existing.catatan;
+                    // Jaga link PDF agar tidak hilang
+                    if(existing.pdfLink) payload.pdfLink = existing.pdfLink;
                 }
             }
 
@@ -1047,14 +1043,11 @@
                     state.requests.push(payload);
                     showAlert("Berhasil", "Pengajuan MCU berhasil dikirim!");
                 }
-                
                 cancelEdit(); 
-                const btnRiwayat = document.querySelectorAll('.tab-btn')[1];
-                switchTab('tab-riwayat-pengajuan', btnRiwayat);
+                switchTab('tab-riwayat-pengajuan', document.querySelectorAll('.tab-btn')[1]);
                 updateStats();
             }
         }
-
         function renderRiwayatPengajuan() {
             const my = state.requests.filter(r => r.userId == state.currentUser.id);
             const cont = document.getElementById('riwayat-content');
@@ -1072,7 +1065,6 @@
                 </div>`;
             });
         }
-        
         function batalPengajuan(id) {
             confirmAction("Data pengajuan ini akan hilang, apakah anda setuju?", async () => {
                 const res = await fetchAPI('deleteRequest', { id: id });
@@ -1084,7 +1076,6 @@
                 }
             });
         }
-
         function editPengajuan(id) {
             const r = state.requests.find(x => x.id == id);
             document.getElementById('edit-pengajuan-id').value = r.id;
@@ -1094,14 +1085,11 @@
                 document.getElementById('pengajuan-kumiai').value = r.kumiai;
                 document.getElementById('pengajuan-jenis').value = r.jenis;
             }
-            
             document.getElementById('form-pengajuan-title').innerText = "Edit Pengajuan Medical";
             document.getElementById('btn-submit-pengajuan').innerText = "Update Pengajuan";
             document.getElementById('btn-cancel-edit').classList.remove('hidden');
-
             switchTab('tab-form-pengajuan', document.querySelectorAll('.tab-btn')[0]);
         }
-
         function cancelEdit() { 
             document.getElementById('form-mcu').reset(); 
             document.getElementById('edit-pengajuan-id').value = ""; 
@@ -1115,15 +1103,12 @@
         function renderKelolaPengajuan() {
             const container = document.getElementById('kelola-pengajuan-container');
             container.innerHTML = '';
-            
             if(state.requests.length === 0) {
                 container.innerHTML = '<div class="text-center py-8 text-gray-500 border rounded-xl bg-gray-50">Belum ada data pengajuan.</div>';
                 return;
             }
-
             [...state.requests].reverse().forEach(r => {
                 const statusColor = r.status === 'Disetujui' ? 'text-green-700 bg-green-50 border-green-200' : 'text-yellow-700 bg-yellow-50 border-yellow-200';
-                
                 container.innerHTML += `
                     <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                         <div class="flex justify-between items-start border-b border-gray-100 pb-3 mb-3">
@@ -1133,7 +1118,6 @@
                             </div>
                             <span class="text-[10px] font-bold px-2 py-1 rounded uppercase ${r.target === 'jepang' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-blue-50 text-blue-600 border-blue-200'} border">${r.target}</span>
                         </div>
-                        
                         <div class="grid grid-cols-2 gap-3 text-xs mb-3">
                             <div>
                                 <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Jenis / Kumiai</p>
@@ -1144,7 +1128,6 @@
                                 <p class="font-medium text-gray-800 leading-tight">Req: ${formatTglIndo(r.tglReq)}<br>Est: <span class="text-primary font-bold">${formatTglIndo(r.tglEst)}</span></p>
                             </div>
                         </div>
-
                         <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
                             <span class="font-bold text-[10px] px-2 py-1 rounded border ${statusColor}">${r.status}</span>
                             <div>
@@ -1170,13 +1153,11 @@
             await fetchAPI('saveRequest', r); location.reload();
         }
 
-        // --- HASIL ---
+        // --- HASIL & UPLOAD PDF ---
         function switchTabHasil(t, b) {
             document.getElementById('tab-hasil-saya').classList.add('hidden');
             document.getElementById('tab-data-medical').classList.add('hidden');
             document.getElementById(t).classList.remove('hidden');
-            
-            // Pindahkan garis hijau penanda tab aktif di halaman hasil
             if (b) {
                 document.querySelectorAll('.tab-hasil-btn').forEach(btn => {
                     btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
@@ -1185,7 +1166,6 @@
                 b.classList.remove('text-gray-500');
                 b.classList.add('text-primary', 'border-b-2', 'border-primary');
             }
-
             t === 'tab-hasil-saya' ? renderHasilSaya() : renderDataMedical();
         }
         function renderHasilMedical() {
@@ -1204,10 +1184,13 @@
             const cont = document.getElementById('hasil-saya-content');
             cont.innerHTML = my.length ? '' : '<p>Belum ada hasil.</p>';
             my.forEach(r => {
-                let color = 'text-green-700 bg-green-50 border-green-200'; // Default FIT
+                let color = 'text-green-700 bg-green-50 border-green-200';
                 if(r.hasil === 'UNFIT') color = 'text-red-700 bg-red-50 border-red-200';
                 else if(r.hasil === 'FIT WITH NOTE') color = 'text-yellow-700 bg-yellow-50 border-yellow-200';
                 else if(r.hasil === 'SUDAH MCU, MENUNGGU HASIL') color = 'text-blue-700 bg-blue-50 border-blue-200';
+
+                // Tampilkan Tombol PDF Jika Admin Sudah Mengunggah
+                const pdfBtn = r.pdfLink ? `<a href="${r.pdfLink}" target="_blank" class="mt-3 block text-center bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 py-2 rounded-lg text-sm font-bold transition shadow-sm"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh Hasil PDF</a>` : '';
 
                 cont.innerHTML += `<div class="bg-white p-5 border border-gray-200 rounded-xl shadow-sm text-left mb-4 relative overflow-hidden">
                     <div class="absolute left-0 top-0 bottom-0 w-1 ${r.hasil==='FIT'?'bg-green-500':r.hasil==='UNFIT'?'bg-red-500':r.hasil==='FIT WITH NOTE'?'bg-yellow-500':'bg-blue-500'}"></div>
@@ -1215,10 +1198,11 @@
                         <p class="font-bold text-gray-800 text-lg mb-1">${r.jenis}</p>
                         <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-calendar-check mr-1"></i> Tgl MCU: ${formatTglIndo(r.tglEst)}</p>
                         <div class="mb-2">
-                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider block mb-1">Status Hasil Medical</span>
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider block mb-1">Status Hasil</span>
                             <span class="font-bold text-xs px-3 py-1 rounded-md border inline-block ${color}">${r.hasil}</span>
                         </div>
-                        ${r.catatan ? `<div class="mt-4 text-xs bg-blue-50 border border-blue-100 p-3 rounded-lg text-blue-800"><strong><i class="fa-solid fa-user-doctor mr-1"></i> Catatan Dokter/Admin:</strong><br><span class="mt-1 block">${r.catatan}</span></div>` : ''}
+                        ${r.catatan ? `<div class="mt-3 text-xs bg-blue-50 border border-blue-100 p-3 rounded-lg text-blue-800"><strong><i class="fa-solid fa-user-doctor mr-1"></i> Catatan Dokter/Admin:</strong><br><span class="mt-1 block">${r.catatan}</span></div>` : ''}
+                        ${pdfBtn}
                     </div>
                 </div>`;
             });
@@ -1226,22 +1210,15 @@
         function renderDataMedical() {
             const container = document.getElementById('data-medical-container');
             container.innerHTML = '';
-            
             const query = document.getElementById('search-mcu').value.toLowerCase();
             const qDate = document.getElementById('search-date').value;
             const role = state.currentUser.role;
-
             let data = state.requests.filter(r => r.status === 'Disetujui');
             
             if(role === 'siswa_jepang') data = data.filter(r => r.target === 'jepang');
             if(role === 'siswa_taiwan') data = data.filter(r => r.target === 'taiwan');
-
-            if(query) {
-                data = data.filter(r => r.nama.toLowerCase().includes(query) || (r.kumiai && r.kumiai.toLowerCase().includes(query)) || r.jenis.toLowerCase().includes(query));
-            }
-            if(qDate) {
-                data = data.filter(r => toYYYYMMDD(r.tglEst) === qDate);
-            }
+            if(query) data = data.filter(r => r.nama.toLowerCase().includes(query) || (r.kumiai && r.kumiai.toLowerCase().includes(query)) || r.jenis.toLowerCase().includes(query));
+            if(qDate) data = data.filter(r => toYYYYMMDD(r.tglEst) === qDate);
 
             if(data.length === 0) {
                 container.innerHTML = `<div class="text-center py-8 text-gray-500 bg-gray-50 rounded-xl border border-gray-200">Tidak ada data ditemukan.</div>`;
@@ -1261,6 +1238,8 @@
                 const hasilDisplay = (role === 'admin' || isMe) ? 
                     `<span class="font-bold text-[10px] px-2 py-1 rounded border ${resColor}">${r.hasil}</span>` : 
                     `<span title="Demi menjaga kerahasiaan" class="text-gray-500 font-bold text-[10px] bg-gray-100 border border-gray-200 px-2 py-1 rounded"><i class="fa-solid fa-lock mr-1 text-gray-400"></i>Rahasia</span>`;
+                
+                const pdfMiniBtn = r.pdfLink && (role === 'admin' || isMe) ? `<a href="${r.pdfLink}" target="_blank" title="Lihat PDF" class="text-[10px] bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 px-2 py-1 rounded font-bold transition ml-2"><i class="fa-solid fa-file-pdf"></i> PDF</a>` : '';
 
                 let aksiHtml = '';
                 if(role === 'admin') {
@@ -1277,7 +1256,6 @@
                             </div>
                             <span class="text-[9px] font-bold px-2 py-1 rounded bg-gray-100 text-gray-600 border border-gray-200 text-right shrink-0 ml-2">${r.jenis}</span>
                         </div>
-                        
                         <div class="grid grid-cols-2 gap-3 text-xs ${isMe ? 'pl-2' : ''}">
                             <div>
                                 <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Nomor HP</p>
@@ -1289,7 +1267,7 @@
                             </div>
                             <div class="col-span-2 pt-3 border-t border-gray-50 mt-1 flex justify-between items-center">
                                 <div>
-                                    <p class="text-gray-400 mb-1.5 text-[10px] uppercase font-bold tracking-wider">Hasil Medical</p>
+                                    <p class="text-gray-400 mb-1.5 text-[10px] uppercase font-bold tracking-wider flex items-center">Hasil Medical ${pdfMiniBtn}</p>
                                     ${hasilDisplay}
                                 </div>
                                 ${aksiHtml}
@@ -1299,18 +1277,84 @@
                 `;
             });
         }
+
+        // FUNGSI JAVASCRIPT UNTUK FILE UPLOAD ADMIN
+        document.getElementById('admin-hasil-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file) {
+                if(file.type !== "application/pdf") {
+                    alert("Harap unggah file dengan format PDF!");
+                    this.value = '';
+                    return;
+                }
+                if(file.size > 3 * 1024 * 1024) { // Limit 3MB agar Google Apps Script tidak kewalahan
+                    alert("Ukuran file PDF maksimal 3 MB!");
+                    this.value = '';
+                    return;
+                }
+                
+                document.getElementById('file-name-text').innerText = file.name;
+                document.getElementById('file-name-display').classList.remove('hidden');
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const result = e.target.result;
+                    selectedFileBase64 = result.split('base64,')[1];
+                    selectedFileName = file.name;
+                    selectedFileMime = file.type;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function hapusFilePDF(event) {
+            if(event) event.preventDefault();
+            document.getElementById('admin-hasil-file').value = '';
+            document.getElementById('file-name-display').classList.add('hidden');
+            selectedFileBase64 = null;
+            selectedFileName = null;
+            selectedFileMime = null;
+        }
+
         function editHasil(id) {
             const r = state.requests.find(x => x.id == id);
             document.getElementById('admin-hasil-id').value = r.id;
             document.getElementById('admin-hasil-status').value = r.hasil;
             document.getElementById('admin-hasil-catatan').value = r.catatan;
+            
+            // Bersihkan file sebelumnya jika ada
+            hapusFilePDF();
+            
+            if(r.pdfLink) {
+                document.getElementById('file-name-text').innerHTML = `<a href="${r.pdfLink}" target="_blank" class="underline hover:text-green-800"><i class="fa-solid fa-cloud-arrow-down"></i> File PDF Sudah Ada (Klik Untuk Buka)</a>`;
+                document.getElementById('file-name-display').classList.remove('hidden');
+            }
+
             openModal('modal-admin-hasil');
         }
+        
         async function saveAdminHasil() {
+            const btn = document.getElementById('btn-kirim-hasil');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengunggah...';
+            btn.disabled = true;
+
             const r = state.requests.find(x => x.id == document.getElementById('admin-hasil-id').value);
             r.hasil = document.getElementById('admin-hasil-status').value;
             r.catatan = document.getElementById('admin-hasil-catatan').value;
-            await fetchAPI('saveRequest', r); location.reload();
+            
+            // Masukkan data PDF rahasia jika admin telah mengupload
+            if(selectedFileBase64) {
+                r.fileData = selectedFileBase64;
+                r.fileName = `Hasil_MCU_${r.nama.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
+                r.mimeType = selectedFileMime;
+                
+                // Nyalakan Loading Screen dengan Pesan Khusus
+                document.getElementById('loader').style.display = 'flex';
+                document.getElementById('loader-text').innerHTML = "Mengunggah PDF ke Google Drive...<br><span class='text-xs font-normal'>(Ini mungkin memakan waktu 10-20 detik)</span>";
+            }
+
+            await fetchAPI('saveRequest', r); 
+            location.reload();
         }
 
         // --- CALENDAR ---
@@ -1322,28 +1366,21 @@
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid'); grid.innerHTML = '';
             const y = currentCalDate.getFullYear(), m = currentCalDate.getMonth();
-            
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             document.getElementById('cal-month-year').innerText = `${monthNames[m]} ${y}`;
-            
             const first = new Date(y, m, 1).getDay(), days = new Date(y, m+1, 0).getDate();
             const today = new Date();
             
             for(let i=0; i<first; i++) grid.innerHTML += '<div class="bg-gray-50 min-h-[60px] rounded border border-transparent"></div>';
-            
             for(let d=1; d<=days; d++) {
                 const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                
                 const list = state.requests.filter(r => r.status === 'Disetujui' && toYYYYMMDD(r.tglEst) === ds);
-                
                 let items = '';
                 list.forEach(l => {
                     const bgClass = l.hasil !== 'BELUM' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800';
                     items += `<div class="text-[9px] ${bgClass} font-semibold mb-1 truncate p-1 rounded cursor-pointer hover:opacity-70 transition" onclick="showCalendarDetail('${ds}')">${l.nama}</div>`
                 });
-                
                 const isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear()) ? 'bg-yellow-50 border-yellow-400 border-2' : 'bg-white border';
-
                 grid.innerHTML += `<div class="p-1 min-h-[70px] rounded flex flex-col ${isToday}">
                     <p class="text-right text-[10px] font-bold text-gray-400 mb-1 shrink-0">${d}</p>
                     <div class="overflow-y-auto flex-grow max-h-[80px] pr-1">${items}</div>
