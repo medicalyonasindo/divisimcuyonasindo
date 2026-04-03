@@ -41,7 +41,7 @@
 <body class="text-gray-800 antialiased overflow-x-hidden">
 
     <div id="loader" class="fixed inset-0 bg-white/90 z-[100] flex-col items-center justify-center fade-in" style="display: none;">
-        <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo Yonasindo" class="w-40 h-40 mb-4 animate-heartbeat drop-shadow-lg object-contain">
+        <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/6dbec19efe593667e0d85631dd9629dc.png" alt="Logo Yonasindo" class="w-40 h-40 mb-4 animate-heartbeat drop-shadow-lg object-contain">
         <p class="text-secondary font-bold animate-pulse">Memproses Data...</p>
     </div>
 
@@ -49,7 +49,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-8 w-8 mr-3 object-contain">
+                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/6dbec19efe593667e0d85631dd9629dc.png" alt="Logo" class="h-8 w-8 mr-3 object-contain">
                     <span class="font-bold text-lg md:text-xl truncate">MCU Yonasindo</span>
                 </div>
                 <div class="hidden md:block">
@@ -83,7 +83,7 @@
                         <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
                     </div>
                     
-                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/logo.png" alt="Logo" class="h-44 w-44 md:h-48 md:w-48 mb-5 object-contain mx-auto drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-300">
+                    <img src="https://raw.githubusercontent.com/medicalyonasindo/divisimcuyonasindo/refs/heads/main/6dbec19efe593667e0d85631dd9629dc.png" alt="Logo" class="h-44 w-44 md:h-48 md:w-48 mb-5 object-contain mx-auto drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-300">
                     <h2 class="text-3xl font-extrabold text-white tracking-tight relative z-10 drop-shadow-md">Portal MCU</h2>
                     <p class="text-light text-sm mt-1.5 font-medium tracking-wide relative z-10">LPK Yonasindo Intra Pratama</p>
                 </div>
@@ -378,22 +378,7 @@
         <section id="view-kelola-pengajuan" class="w-full max-w-6xl p-4 hidden-view fade-in">
             <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                 <h2 class="text-2xl font-bold text-secondary mb-4"><i class="fa-solid fa-list-check mr-2"></i> Kelola Pengajuan</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-white uppercase bg-secondary">
-                            <tr>
-                                <th class="px-4 py-3">Nama</th>
-                                <th class="px-4 py-3">Tujuan</th>
-                                <th class="px-4 py-3">Jenis/Kumiai</th>
-                                <th class="px-4 py-3">Diajukan</th>
-                                <th class="px-4 py-3">Estimasi</th>
-                                <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-kelola-body"></tbody>
-                    </table>
-                </div>
+                <div id="kelola-pengajuan-container" class="space-y-4"></div>
             </div>
         </section>
 
@@ -412,26 +397,13 @@
                         <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                             <h2 class="text-xl font-bold text-secondary" id="title-data-medical">Data Seluruh Medical</h2>
                             <div class="flex gap-2 w-full md:w-auto">
-                                <input type="text" id="search-mcu" oninput="renderDataMedical()" placeholder="Cari..." class="w-full md:w-64 px-3 py-2 border rounded text-sm">
-                                <input type="date" id="search-date" onchange="renderDataMedical()" class="px-3 py-2 border rounded text-sm">
+                                <input type="text" id="search-mcu" oninput="renderDataMedical()" placeholder="Cari Nama / Jenis..." class="w-full md:w-64 px-3 py-2 border rounded-xl text-sm focus:ring-primary focus:border-primary">
+                                <input type="date" id="search-date" onchange="renderDataMedical()" class="px-3 py-2 border rounded-xl text-sm focus:ring-primary focus:border-primary">
                             </div>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500">
-                                <thead class="text-xs text-white uppercase bg-primary">
-                                    <tr>
-                                        <th class="px-4 py-3">Nama</th>
-                                        <th class="px-4 py-3" id="th-kumiai">Kumiai</th>
-                                        <th class="px-4 py-3">Jenis</th>
-                                        <th class="px-4 py-3">No HP</th>
-                                        <th class="px-4 py-3">Tgl MCU</th>
-                                        <th class="px-4 py-3">Hasil</th>
-                                        <th class="px-4 py-3" id="th-aksi"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-data-medical-body"></tbody>
-                            </table>
-                        </div>
+                        
+                        <div id="data-medical-container" class="space-y-4"></div>
+                        
                     </div>
                 </div>
             </div>
@@ -1076,13 +1048,13 @@
                     showAlert("Berhasil", "Pengajuan MCU berhasil dikirim!");
                 }
                 
-                // Bersihkan formulir dan ganti tab secara otomatis tanpa reload page
                 cancelEdit(); 
                 const btnRiwayat = document.querySelectorAll('.tab-btn')[1];
                 switchTab('tab-riwayat-pengajuan', btnRiwayat);
                 updateStats();
             }
         }
+
         function renderRiwayatPengajuan() {
             const my = state.requests.filter(r => r.userId == state.currentUser.id);
             const cont = document.getElementById('riwayat-content');
@@ -1094,11 +1066,25 @@
                     <p class="text-xs">Estimasi: <span class="font-bold">${formatTglIndo(r.tglEst)}</span></p>
                     <div class="mt-2 flex gap-2">
                         <span class="text-[10px] px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 font-bold">${r.status}</span>
-                        ${r.status === 'Menunggu persetujuan' ? `<button onclick="editPengajuan(${r.id})" class="text-[10px] text-blue-600">Edit</button>` : ''}
+                        ${r.status === 'Menunggu persetujuan' ? `<button onclick="editPengajuan(${r.id})" class="text-[10px] text-blue-600 bg-blue-50 px-2 py-1 border border-blue-200 rounded transition hover:bg-blue-100">Edit</button>` : ''}
+                        <button onclick="batalPengajuan(${r.id})" class="text-[10px] text-red-600 ml-auto border border-red-200 px-2 py-1 bg-red-50 hover:bg-red-100 transition rounded">Batal</button>
                     </div>
                 </div>`;
             });
         }
+        
+        function batalPengajuan(id) {
+            confirmAction("Data pengajuan ini akan hilang, apakah anda setuju?", async () => {
+                const res = await fetchAPI('deleteRequest', { id: id });
+                if(res.status === 'success') {
+                    state.requests = state.requests.filter(r => r.id !== id);
+                    renderRiwayatPengajuan();
+                    updateStats();
+                    showAlert("Dibatalkan", "Pengajuan berhasil dibatalkan.");
+                }
+            });
+        }
+
         function editPengajuan(id) {
             const r = state.requests.find(x => x.id == id);
             document.getElementById('edit-pengajuan-id').value = r.id;
@@ -1115,7 +1101,7 @@
 
             switchTab('tab-form-pengajuan', document.querySelectorAll('.tab-btn')[0]);
         }
-        
+
         function cancelEdit() { 
             document.getElementById('form-mcu').reset(); 
             document.getElementById('edit-pengajuan-id').value = ""; 
@@ -1127,18 +1113,47 @@
 
         // --- ADMIN KELOLA ---
         function renderKelolaPengajuan() {
-            const body = document.getElementById('table-kelola-body');
-            body.innerHTML = '';
+            const container = document.getElementById('kelola-pengajuan-container');
+            container.innerHTML = '';
+            
+            if(state.requests.length === 0) {
+                container.innerHTML = '<div class="text-center py-8 text-gray-500 border rounded-xl bg-gray-50">Belum ada data pengajuan.</div>';
+                return;
+            }
+
             [...state.requests].reverse().forEach(r => {
-                body.innerHTML += `<tr class="border-b text-xs">
-                    <td class="p-2">${r.nama}<br><span class="text-gray-400">${r.hp}</span></td>
-                    <td class="p-2 uppercase">${r.target}</td>
-                    <td class="p-2">${r.jenis}<br>${r.kumiai}</td>
-                    <td class="p-2">${formatTglIndo(r.tglReq)}</td>
-                    <td class="p-2 font-bold">${formatTglIndo(r.tglEst)}</td>
-                    <td class="p-2">${r.status}</td>
-                    <td class="p-2"><button onclick="editKelola(${r.id})" class="text-blue-600"><i class="fa-solid fa-pen"></i></button></td>
-                </tr>`;
+                const statusColor = r.status === 'Disetujui' ? 'text-green-700 bg-green-50 border-green-200' : 'text-yellow-700 bg-yellow-50 border-yellow-200';
+                
+                container.innerHTML += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start border-b border-gray-100 pb-3 mb-3">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">${r.nama}</h4>
+                                <p class="text-[11px] text-gray-500 mt-1"><i class="fa-solid fa-phone mr-1 text-gray-400"></i> ${r.hp}</p>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-1 rounded uppercase ${r.target === 'jepang' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-blue-50 text-blue-600 border-blue-200'} border">${r.target}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+                            <div>
+                                <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Jenis / Kumiai</p>
+                                <p class="font-medium text-gray-800 leading-tight">${r.jenis} <br><span class="text-gray-500 font-normal">${r.kumiai || '-'}</span></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Tanggal</p>
+                                <p class="font-medium text-gray-800 leading-tight">Req: ${formatTglIndo(r.tglReq)}<br>Est: <span class="text-primary font-bold">${formatTglIndo(r.tglEst)}</span></p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
+                            <span class="font-bold text-[10px] px-2 py-1 rounded border ${statusColor}">${r.status}</span>
+                            <div>
+                                <button onclick="editKelola(${r.id})" class="bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition mr-2" title="Edit/Setuju"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="hapusPengajuan(${r.id})" class="bg-red-50 text-red-600 border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-100 transition" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
         }
         function editKelola(id) {
@@ -1189,22 +1204,28 @@
             const cont = document.getElementById('hasil-saya-content');
             cont.innerHTML = my.length ? '' : '<p>Belum ada hasil.</p>';
             my.forEach(r => {
-                let color = 'text-green-600'; // Default FIT
-                if(r.hasil === 'UNFIT') color = 'text-red-600';
-                else if(r.hasil === 'FIT WITH NOTE') color = 'text-yellow-600';
-                else if(r.hasil === 'SUDAH MCU, MENUNGGU HASIL') color = 'text-blue-600';
+                let color = 'text-green-700 bg-green-50 border-green-200'; // Default FIT
+                if(r.hasil === 'UNFIT') color = 'text-red-700 bg-red-50 border-red-200';
+                else if(r.hasil === 'FIT WITH NOTE') color = 'text-yellow-700 bg-yellow-50 border-yellow-200';
+                else if(r.hasil === 'SUDAH MCU, MENUNGGU HASIL') color = 'text-blue-700 bg-blue-50 border-blue-200';
 
-                cont.innerHTML += `<div class="bg-white p-4 border rounded text-left mb-2">
-                    <p class="font-bold">${r.jenis}</p>
-                    <p class="text-xs">Tgl MCU: ${formatTglIndo(r.tglEst)}</p>
-                    <p class="font-bold ${color} mt-2">HASIL: ${r.hasil}</p>
-                    ${r.catatan ? `<p class="mt-2 text-xs bg-gray-50 p-2 rounded">Catatan: ${r.catatan}</p>` : ''}
+                cont.innerHTML += `<div class="bg-white p-5 border border-gray-200 rounded-xl shadow-sm text-left mb-4 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 ${r.hasil==='FIT'?'bg-green-500':r.hasil==='UNFIT'?'bg-red-500':r.hasil==='FIT WITH NOTE'?'bg-yellow-500':'bg-blue-500'}"></div>
+                    <div class="pl-2">
+                        <p class="font-bold text-gray-800 text-lg mb-1">${r.jenis}</p>
+                        <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-calendar-check mr-1"></i> Tgl MCU: ${formatTglIndo(r.tglEst)}</p>
+                        <div class="mb-2">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider block mb-1">Status Hasil Medical</span>
+                            <span class="font-bold text-xs px-3 py-1 rounded-md border inline-block ${color}">${r.hasil}</span>
+                        </div>
+                        ${r.catatan ? `<div class="mt-4 text-xs bg-blue-50 border border-blue-100 p-3 rounded-lg text-blue-800"><strong><i class="fa-solid fa-user-doctor mr-1"></i> Catatan Dokter/Admin:</strong><br><span class="mt-1 block">${r.catatan}</span></div>` : ''}
+                    </div>
                 </div>`;
             });
         }
         function renderDataMedical() {
-            const body = document.getElementById('table-data-medical-body');
-            body.innerHTML = '';
+            const container = document.getElementById('data-medical-container');
+            container.innerHTML = '';
             
             const query = document.getElementById('search-mcu').value.toLowerCase();
             const qDate = document.getElementById('search-date').value;
@@ -1223,43 +1244,58 @@
             }
 
             if(data.length === 0) {
-                body.innerHTML = `<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">Tidak ada data ditemukan.</td></tr>`;
+                container.innerHTML = `<div class="text-center py-8 text-gray-500 bg-gray-50 rounded-xl border border-gray-200">Tidak ada data ditemukan.</div>`;
                 return;
             }
 
             data.forEach(r => {
                 const isMe = r.userId == state.currentUser.id;
-                const badgeMe = isMe ? '<span class="text-xs text-primary font-bold ml-1">(Anda)</span>' : '';
+                const badgeMe = isMe ? '<span class="text-[9px] bg-primary text-white px-2 py-0.5 rounded-full ml-2 align-middle shadow-sm">Milik Anda</span>' : '';
                 
-                let resColor = 'text-yellow-600';
-                if(r.hasil === 'FIT') resColor = 'text-green-600';
-                else if(r.hasil === 'UNFIT') resColor = 'text-red-600';
-                else if(r.hasil === 'SUDAH MCU, MENUNGGU HASIL') resColor = 'text-blue-600';
+                let resColor = 'text-yellow-700 bg-yellow-50 border-yellow-200';
+                if(r.hasil === 'FIT') resColor = 'text-green-700 bg-green-50 border-green-200';
+                else if(r.hasil === 'UNFIT') resColor = 'text-red-700 bg-red-50 border-red-200';
+                else if(r.hasil === 'SUDAH MCU, MENUNGGU HASIL') resColor = 'text-blue-700 bg-blue-50 border-blue-200';
 
-                const hpDisplay = (role === 'admin' || isMe) ? r.hp : `<span title="Demi menjaga kerahasiaan" class="cursor-help text-gray-400">****</span>`;
+                const hpDisplay = (role === 'admin' || isMe) ? r.hp : `<span title="Demi menjaga kerahasiaan" class="text-gray-400">****</span>`;
                 const hasilDisplay = (role === 'admin' || isMe) ? 
-                    `<span class="font-bold text-xs ${resColor}">${r.hasil}</span>` : 
-                    `<span title="Demi menjaga kerahasiaan" class="cursor-help text-gray-400 font-bold">****</span>`;
-
-                const kumiaiDisplay = role === 'siswa_taiwan' ? '' : `<td class="p-2">${r.kumiai || '-'}</td>`;
+                    `<span class="font-bold text-[10px] px-2 py-1 rounded border ${resColor}">${r.hasil}</span>` : 
+                    `<span title="Demi menjaga kerahasiaan" class="text-gray-500 font-bold text-[10px] bg-gray-100 border border-gray-200 px-2 py-1 rounded"><i class="fa-solid fa-lock mr-1 text-gray-400"></i>Rahasia</span>`;
 
                 let aksiHtml = '';
                 if(role === 'admin') {
-                    aksiHtml = `<td class="p-2"><button class="bg-blue-100 text-blue-700 font-semibold px-2 py-1 rounded hover:bg-blue-200 transition" onclick="editHasil(${r.id})">Input / Edit</button></td>`;
-                } else {
-                    aksiHtml = `<td class="p-2"></td>`;
+                    aksiHtml = `<button class="bg-blue-50 text-blue-600 border border-blue-200 font-semibold px-3 py-1.5 rounded-lg hover:bg-blue-100 transition text-xs shadow-sm" onclick="editHasil(${r.id})"><i class="fa-solid fa-pen-to-square mr-1"></i> Input / Edit</button>`;
                 }
 
-                body.innerHTML += `
-                    <tr class="border-b text-xs hover:bg-gray-50">
-                        <td class="p-2 font-medium text-gray-900">${r.nama} ${badgeMe}</td>
-                        ${kumiaiDisplay}
-                        <td class="p-2 font-semibold text-gray-700">${r.jenis}</td>
-                        <td class="p-2">${hpDisplay}</td>
-                        <td class="p-2">${formatTglIndo(r.tglEst)}</td>
-                        <td class="p-2">${hasilDisplay}</td>
-                        ${aksiHtml}
-                    </tr>
+                container.innerHTML += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                        ${isMe ? `<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>` : ''}
+                        <div class="flex justify-between items-start border-b border-gray-100 pb-3 mb-3 ${isMe ? 'pl-2' : ''}">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm flex items-center">${r.nama} ${badgeMe}</h4>
+                                ${role !== 'siswa_taiwan' ? `<p class="text-[11px] text-gray-500 mt-1"><i class="fa-solid fa-building mr-1 text-gray-400"></i> Kumiai: <span class="font-semibold text-gray-700">${r.kumiai || '-'}</span></p>` : ''}
+                            </div>
+                            <span class="text-[9px] font-bold px-2 py-1 rounded bg-gray-100 text-gray-600 border border-gray-200 text-right shrink-0 ml-2">${r.jenis}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 text-xs ${isMe ? 'pl-2' : ''}">
+                            <div>
+                                <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Nomor HP</p>
+                                <p class="font-medium text-gray-800">${hpDisplay}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 mb-0.5 text-[10px] uppercase font-bold tracking-wider">Tgl MCU</p>
+                                <p class="font-medium text-gray-800">${formatTglIndo(r.tglEst)}</p>
+                            </div>
+                            <div class="col-span-2 pt-3 border-t border-gray-50 mt-1 flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-400 mb-1.5 text-[10px] uppercase font-bold tracking-wider">Hasil Medical</p>
+                                    ${hasilDisplay}
+                                </div>
+                                ${aksiHtml}
+                            </div>
+                        </div>
+                    </div>
                 `;
             });
         }
