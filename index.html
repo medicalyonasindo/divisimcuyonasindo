@@ -172,7 +172,16 @@
                             <button onclick="handleLogin()" class="w-full bg-primary hover:bg-secondary text-white font-bold py-4 px-4 rounded-2xl transition-all duration-300 shadow-[0_10px_20px_rgba(28,59,43,0.15)] hover:shadow-[0_15px_30px_rgba(28,59,43,0.25)] transform hover:-translate-y-1">
                                 Masuk Portal <i class="fa-solid fa-arrow-right ml-2 opacity-80"></i>
                             </button>
-                            <p class="mt-8 text-center text-sm font-medium text-gray-500">Pendaftar baru? <a href="#" onclick="toggleAuth('register')" class="text-secondary hover:text-primary font-extrabold underline decoration-2 underline-offset-4 transition-colors">Buat Akun</a></p>
+                            
+                            <div class="mt-8 flex items-center justify-center gap-3">
+                                <div class="h-px bg-gray-200 flex-1"></div>
+                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Belum Punya Akun?</span>
+                                <div class="h-px bg-gray-200 flex-1"></div>
+                            </div>
+                            
+                            <button onclick="toggleAuth('register')" class="w-full mt-6 bg-white border-2 border-gray-200 hover:border-secondary hover:text-secondary text-gray-600 font-extrabold py-4 px-4 rounded-2xl transition-all duration-300 shadow-sm transform hover:-translate-y-1">
+                                Buat Akun Baru
+                            </button>
                         </div>
 
                         <div id="form-register" class="hidden">
@@ -221,10 +230,19 @@
                                 </div>
                             </div>
 
-                            <button onclick="handleRegister()" class="w-full mt-6 bg-secondary hover:bg-primary text-white font-bold py-4 px-4 rounded-xl transition-all duration-300 shadow-[0_10px_20px_rgba(46,90,65,0.15)] hover:shadow-[0_15px_30px_rgba(46,90,65,0.25)] transform hover:-translate-y-1">
+                            <button onclick="handleRegister()" class="w-full mt-8 bg-secondary hover:bg-primary text-white font-bold py-4 px-4 rounded-2xl transition-all duration-300 shadow-[0_10px_20px_rgba(46,90,65,0.15)] hover:shadow-[0_15px_30px_rgba(46,90,65,0.25)] transform hover:-translate-y-1">
                                 Daftarkan Akun
                             </button>
-                            <p class="mt-6 text-center text-sm font-medium text-gray-500">Sudah terdaftar? <a href="#" onclick="toggleAuth('login')" class="text-secondary hover:text-primary font-extrabold underline decoration-2 underline-offset-4 transition-colors">Masuk di sini</a></p>
+                            
+                            <div class="mt-8 flex items-center justify-center gap-3">
+                                <div class="h-px bg-gray-200 flex-1"></div>
+                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Sudah Terdaftar?</span>
+                                <div class="h-px bg-gray-200 flex-1"></div>
+                            </div>
+
+                            <button onclick="toggleAuth('login')" class="w-full mt-6 bg-white border-2 border-gray-200 hover:border-secondary hover:text-secondary text-gray-600 font-extrabold py-4 px-4 rounded-2xl transition-all duration-300 shadow-sm transform hover:-translate-y-1">
+                                Kembali untuk Masuk
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -248,16 +266,18 @@
                         <!-- Teks salam akan diganti secara dinamis berdasarkan role -->
                     </div>
                     
-                    <div id="dash-student-alert" onclick="navigate('view-pengajuan')" class="hidden mt-6 p-5 bg-white text-primary hover:bg-bglight cursor-pointer rounded-2xl shadow-xl text-center transform transition-all duration-300 hover:scale-[1.02] border border-gray-100">
-                        <div class="flex items-center justify-center gap-4">
-                            <div class="bg-accent/30 p-3 rounded-full text-secondary">
-                                <i class="fa-solid fa-pen-to-square text-2xl"></i>
+                    <div id="dash-student-alert" onclick="navigate('view-pengajuan')" class="hidden mt-6 p-6 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 cursor-pointer rounded-2xl shadow-[0_15px_30px_rgba(245,158,11,0.4)] text-center transform transition-all duration-300 hover:scale-[1.03] border border-yellow-300">
+                        <div class="flex items-center justify-between gap-3 md:gap-5">
+                            <div class="bg-white/40 p-4 rounded-full text-yellow-900 shadow-inner flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-notes-medical text-3xl md:text-4xl animate-pulse"></i>
                             </div>
-                            <div class="text-left">
-                                <span class="font-extrabold text-lg block leading-tight">AJUKAN MEDICAL</span>
-                                <span class="font-medium text-xs text-gray-500 block mt-0.5">Klik di sini untuk mengisi formulir MCU</span>
+                            <div class="text-left flex-1">
+                                <span class="font-black text-xl md:text-2xl text-yellow-900 block leading-tight tracking-tight uppercase drop-shadow-sm">AJUKAN MEDICAL</span>
+                                <span class="font-bold text-sm md:text-base text-yellow-800 block mt-1">KLIK DI SINI untuk mengisi form!</span>
                             </div>
-                            <i class="fa-solid fa-arrow-right text-xl ml-auto text-gray-300"></i>
+                            <div class="bg-yellow-900 text-yellow-400 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg shrink-0">
+                                <i class="fa-solid fa-arrow-right text-lg md:text-xl"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -344,6 +364,7 @@
                         </div>
                     </div>
 
+                    <!-- Panel Papan Informasi / Berita -->
                     <div id="widget-news" class="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-50 hidden">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-lg font-bold text-primary tracking-tight"><i class="fa-regular fa-newspaper text-orange-400 bg-orange-50 rounded-full p-2 text-sm mr-2"></i> Papan Informasi</h2>
@@ -426,11 +447,13 @@
             </div>
         </section>
 
-        <!-- ==================== KELOLA PENGAJUAN ADMIN ==================== -->
+        <!-- ==================== KELOLA PENGAJUAN ADMIN DENGAN PAGINATION ==================== -->
         <section id="view-kelola-pengajuan" class="w-full max-w-6xl px-4 hidden-view relative z-10">
             <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.04)] border border-gray-50">
                 <h2 class="text-3xl font-extrabold text-primary mb-8 tracking-tight"><i class="fa-solid fa-list-check mr-2 opacity-50"></i> Kelola Pengajuan Masuk</h2>
                 <div id="kelola-pengajuan-container" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+                <!-- Pagination untuk Kelola Pengajuan -->
+                <div id="pagination-kelola-container" class="mt-10 flex justify-center items-center gap-2 flex-wrap pb-2"></div>
             </div>
         </section>
 
@@ -454,13 +477,16 @@
                             <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                                 <div class="relative w-full md:w-64 lg:w-80">
                                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                                    <input type="text" id="search-mcu" oninput="renderDataMedical()" placeholder="Cari Nama, Kumiai, Paket, atau Hasil..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-primary outline-none transition-all shadow-sm">
+                                    <input type="text" id="search-mcu" oninput="handleSearch()" placeholder="Cari Nama, Kumiai, Paket, atau Hasil..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-primary outline-none transition-all shadow-sm">
                                 </div>
-                                <input type="date" id="search-date" onchange="renderDataMedical()" class="px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-primary outline-none shadow-sm cursor-pointer">
+                                <input type="date" id="search-date" onchange="handleSearch()" class="px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-primary outline-none shadow-sm cursor-pointer">
                             </div>
                         </div>
                         
                         <div id="data-medical-container" class="grid grid-cols-1 md:grid-cols-2 gap-5 relative"></div>
+                        
+                        <!-- WADAH UNTUK TOMBOL HALAMAN (PAGINATION) -->
+                        <div id="pagination-container" class="mt-10 flex justify-center items-center gap-2 flex-wrap pb-6"></div>
                         
                     </div>
                 </div>
@@ -546,6 +572,42 @@
         </div>
     </div>
 
+    <!-- MODAL TAMBAH BERITA -->
+    <div id="modal-add-news" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center fade-in">
+        <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-lg w-full mx-4 border border-white/20">
+            <h3 class="text-2xl font-extrabold text-primary mb-6 border-b border-gray-100 pb-4 tracking-tight" id="news-modal-title">Publikasi Berita Baru</h3>
+            
+            <div class="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-2xl border border-blue-100 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-400 opacity-10 rounded-full blur-xl"></div>
+                <label class="block text-[10px] font-bold text-blue-800 uppercase tracking-widest mb-2"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Bantuan AI Penulis ✨</label>
+                <div class="flex gap-3">
+                    <input type="text" id="news-ai-prompt" placeholder="Ketik topik berita di sini..." class="w-full p-3 bg-white border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm font-medium shadow-sm outline-none">
+                    <button onclick="generateNewsAI()" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-sm font-bold shadow-md whitespace-nowrap transition-transform transform hover:-translate-y-0.5" id="btn-news-ai">Buat ✨</button>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-8">
+                <input type="hidden" id="news-id">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Judul Berita</label>
+                    <input type="text" id="news-title" placeholder="Masukkan judul..." class="w-full p-4 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white text-sm font-bold outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Deskripsi Singkat</label>
+                    <textarea id="news-desc" placeholder="Isi ringkasan..." class="w-full p-4 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white text-sm font-medium outline-none transition-colors" rows="2"></textarea>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">URL Tautan (Opsional)</label>
+                    <input type="url" id="news-link" placeholder="https://..." class="w-full p-4 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white text-sm font-medium text-blue-600 outline-none transition-colors">
+                </div>
+            </div>
+            <div class="flex gap-4 justify-end">
+                <button onclick="closeModal('modal-add-news')" class="bg-bglight border border-gray-200 text-gray-600 hover:bg-gray-100 px-6 py-3.5 rounded-xl text-sm font-bold transition-colors">Batal</button>
+                <button onclick="saveNews()" class="bg-primary hover:bg-secondary text-white px-8 py-3.5 rounded-xl text-sm font-bold shadow-lg transition-transform transform hover:-translate-y-1">Publikasi</button>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-admin-pengajuan" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center fade-in">
         <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-md w-full mx-4 border border-white/20">
             <h3 class="text-2xl font-extrabold text-primary mb-6 border-b border-gray-100 pb-4 tracking-tight">Setujui Pengajuan</h3>
@@ -625,7 +687,6 @@
                     <div id="pdf-status-text"></div>
                 </div>
 
-                <!-- Bagian File PDF yang sudah tersimpan (Bisa dihapus) -->
                 <div id="existing-pdf-area-pdf" class="hidden p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center justify-between shadow-sm transition-all mb-4">
                     <div class="flex items-center">
                         <i class="fa-solid fa-file-pdf text-green-600 text-3xl mr-3 opacity-80"></i>
@@ -664,7 +725,7 @@
 
     <!-- Script Utama -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyCHQE-8nno6wabsqlC_R0clkgtuBoE8yhNTjgk800RwdSNG8UskDcpmmGgQnk18uS6JA/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbySwMYw9sN7XBqFvqBIZ56ji-fdClc8VSL2saRdYVHX58GRlipbpnyEGx5VoTeNXU_z/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
         const staffCreds = { u: 'mcuyonasindo', p: 'viewer321' };
         let state = { currentUser: null, users: [], news: [], requests: [] };
@@ -676,6 +737,11 @@
         let selectedFileMime = null;
         
         let deleteExistingPdf = false;
+        
+        // VARIABEL GLOBAL UNTUK PAGINATION
+        let currentPage = 1;
+        let currentKelolaPage = 1; // Tambahan untuk Kelola Pengajuan
+        const itemsPerPage = 10;
 
         async function fetchAPI(action, payload = {}) {
             if(action !== 'saveRequest' || !payload.fileData) {
@@ -828,12 +894,10 @@
             if(user) { state.currentUser = { role: `siswa_${user.target}`, ...user }; loginSuccess(); }
             else showAlert("Autentikasi Gagal", "Username atau Password yang Anda masukkan tidak sesuai.");
         }
-        
         function loginSuccess() {
             sessionStorage.setItem('mcu_active_user', JSON.stringify(state.currentUser));
             showApp(state.currentUser.role);
         }
-        
         async function handleRegister() {
             let namaRaw = document.getElementById('reg-nama').value;
             const nama = namaRaw.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
@@ -856,7 +920,6 @@
                 toggleAuth('login');
             }
         }
-        
         function logout() {
             sessionStorage.clear();
             state.currentUser = null;
@@ -1113,7 +1176,6 @@
             `;
         }
 
-        // --- AI NEWS WRITER & NEWS RENDERER ---
         async function generateNewsAI() {
             const topicInput = document.getElementById('news-ai-prompt');
             const topic = topicInput?.value.trim();
@@ -1346,14 +1408,24 @@
         // --- ADMIN KELOLA ---
         function renderKelolaPengajuan() {
             const container = document.getElementById('kelola-pengajuan-container');
+            const paginationContainer = document.getElementById('pagination-kelola-container');
             container.innerHTML = '';
             
             if(state.requests.length === 0) {
                 container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center py-16 bg-bglight rounded-[2rem] border border-gray-100"><i class="fa-solid fa-inbox text-5xl text-gray-300 mb-4 block"></i><p class="text-lg font-bold text-gray-500">Inbox administrasi kosong.</p></div>';
+                paginationContainer.innerHTML = '';
                 return;
             }
             
-            [...state.requests].reverse().forEach(r => {
+            let data = [...state.requests].reverse();
+            
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            if (currentKelolaPage > totalPages) currentKelolaPage = totalPages;
+            
+            const startIndex = (currentKelolaPage - 1) * itemsPerPage;
+            const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+            paginatedData.forEach(r => {
                 const statusColor = r.status === 'Disetujui' ? 'text-green-700 bg-green-50 border-green-200' : 'text-yellow-700 bg-yellow-50 border-yellow-200';
                 container.innerHTML += `
                     <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-xl transition-all group relative overflow-hidden">
@@ -1386,6 +1458,50 @@
                     </div>
                 `;
             });
+            
+            renderKelolaPaginationControls(totalPages);
+        }
+        
+        function renderKelolaPaginationControls(totalPages) {
+            const paginationContainer = document.getElementById('pagination-kelola-container');
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            html += `<button onclick="changeKelolaPage(${currentKelolaPage - 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentKelolaPage === 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i></button>`;
+
+            let startPage = Math.max(1, currentKelolaPage - 2);
+            let endPage = Math.min(totalPages, currentKelolaPage + 2);
+
+            if (startPage > 1) {
+                html += `<button onclick="changeKelolaPage(1)" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">1</button>`;
+                if (startPage > 2) html += `<span class="px-2 text-gray-400 font-bold tracking-widest">...</span>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentKelolaPage) {
+                    html += `<button class="w-10 h-10 rounded-2xl bg-primary text-white font-extrabold shadow-md flex items-center justify-center transform scale-110">${i}</button>`;
+                } else {
+                    html += `<button onclick="changeKelolaPage(${i})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${i}</button>`;
+                }
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="px-2 text-gray-400 font-bold tracking-widest">...</span>`;
+                html += `<button onclick="changeKelolaPage(${totalPages})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${totalPages}</button>`;
+            }
+
+            html += `<button onclick="changeKelolaPage(${currentKelolaPage + 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentKelolaPage === totalPages ? 'disabled' : ''}><i class="fa-solid fa-chevron-right"></i></button>`;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function changeKelolaPage(page) {
+            currentKelolaPage = page;
+            renderKelolaPengajuan();
+            document.getElementById('view-kelola-pengajuan').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function editKelola(id) {
@@ -1495,35 +1611,90 @@
             });
         }
 
+        // LOGIKA BULK EDIT & CHECKBOX
+        function handleCheckboxChange(checkbox) {
+            const id = checkbox.value;
+            if(checkbox.checked) {
+                if(!selectedBulkIds.includes(id)) selectedBulkIds.push(id);
+            } else {
+                selectedBulkIds = selectedBulkIds.filter(item => item !== id);
+            }
+            updateBulkActionBar();
+        }
+
+        function updateBulkActionBar() {
+            const bar = document.getElementById('bulk-action-bar');
+            const count = document.getElementById('bulk-count');
+            
+            if(selectedBulkIds.length > 0) {
+                count.innerText = selectedBulkIds.length;
+                bar.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+            } else {
+                bar.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function clearBulkSelection() {
+            selectedBulkIds = [];
+            document.querySelectorAll('.bulk-checkbox').forEach(cb => cb.checked = false);
+            updateBulkActionBar();
+        }
+
+        function editStatus(id) {
+            document.getElementById('admin-status-ids').value = JSON.stringify([id]);
+            const r = state.requests.find(x => x.id == id);
+            document.getElementById('admin-status-value').value = r.hasil;
+            document.getElementById('admin-status-catatan').value = r.catatan || '';
+            document.getElementById('bulk-warning-msg').classList.add('hidden');
+            openModal('modal-admin-status');
+        }
+
+        function editBulkStatus() {
+            document.getElementById('admin-status-ids').value = JSON.stringify(selectedBulkIds);
+            document.getElementById('admin-status-value').value = 'SUDAH MCU, MENUNGGU HASIL'; 
+            document.getElementById('admin-status-catatan').value = '';
+            document.getElementById('bulk-warning-msg').classList.remove('hidden');
+            openModal('modal-admin-status');
+        }
+
+        // FUNGSI HANDLE SEARCH UNTUK MERESET HALAMAN KE 1 SAAT MENCARI
+        function handleSearch() {
+            currentPage = 1;
+            renderDataMedical();
+        }
+
         function renderDataMedical() {
             const container = document.getElementById('data-medical-container');
+            const paginationContainer = document.getElementById('pagination-container');
             container.innerHTML = '';
+            
             const query = document.getElementById('search-mcu').value.toLowerCase();
             const qDate = document.getElementById('search-date').value;
             const role = state.currentUser.role;
-            let data = state.requests.filter(r => r.status === 'Disetujui');
+            
+            // Urutkan data terbaru di atas
+            let data = [...state.requests].reverse().filter(r => r.status === 'Disetujui');
             
             if(role === 'siswa_jepang') data = data.filter(r => r.target === 'jepang');
             if(role === 'siswa_taiwan') data = data.filter(r => r.target === 'taiwan');
             
-            // Pencarian Lanjutan Termasuk Hasil/Catatan
-            if(query) {
-                data = data.filter(r => 
-                    r.nama.toLowerCase().includes(query) || 
-                    (r.kumiai && r.kumiai.toLowerCase().includes(query)) || 
-                    r.jenis.toLowerCase().includes(query) ||
-                    r.hasil.toLowerCase().includes(query)
-                );
-            }
-            
+            if(query) data = data.filter(r => r.nama.toLowerCase().includes(query) || (r.kumiai && r.kumiai.toLowerCase().includes(query)) || r.jenis.toLowerCase().includes(query) || r.hasil.toLowerCase().includes(query));
             if(qDate) data = data.filter(r => toYYYYMMDD(r.tglEst) === qDate);
 
             if(data.length === 0) {
                 container.innerHTML = `<div class="col-span-1 md:col-span-2 text-center py-12 text-gray-400 font-bold bg-bglight rounded-[2rem] border border-gray-100"><i class="fa-solid fa-magnifying-glass text-3xl mb-3 block opacity-50"></i>Pencarian tidak menemukan hasil.</div>`;
+                paginationContainer.innerHTML = '';
                 return;
             }
 
-            data.forEach(r => {
+            // LOGIKA PAGINATION (MEMOTONG DATA SESUAI HALAMAN)
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+            paginatedData.forEach(r => {
                 const isMe = r.userId == state.currentUser.id;
                 const badgeMe = isMe ? `<span class="text-[9px] bg-primary text-white px-2 py-0.5 rounded-full ml-2 align-middle shadow-sm font-bold uppercase tracking-wider"><i class="fa-solid fa-user mr-0.5"></i> Saya</span>` : '';
                 
@@ -1629,52 +1800,60 @@
                     </div>
                 `;
             });
-        }
-
-        // LOGIKA BULK EDIT & CHECKBOX
-        function handleCheckboxChange(checkbox) {
-            const id = checkbox.value;
-            if(checkbox.checked) {
-                if(!selectedBulkIds.includes(id)) selectedBulkIds.push(id);
-            } else {
-                selectedBulkIds = selectedBulkIds.filter(item => item !== id);
-            }
-            updateBulkActionBar();
-        }
-
-        function updateBulkActionBar() {
-            const bar = document.getElementById('bulk-action-bar');
-            const count = document.getElementById('bulk-count');
             
-            if(selectedBulkIds.length > 0) {
-                count.innerText = selectedBulkIds.length;
-                bar.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
-            } else {
-                bar.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+            // RENDER TOMBOL PAGINATION
+            renderPaginationControls(totalPages);
+        }
+
+        // FUNGSI UNTUK MERENDER TOMBOL-TOMBOL HALAMAN (1, 2, 3...)
+        function renderPaginationControls(totalPages) {
+            const paginationContainer = document.getElementById('pagination-container');
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
             }
+
+            let html = '';
+            
+            // Tombol "Sebelumnya"
+            html += `<button onclick="changePage(${currentPage - 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentPage === 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i></button>`;
+
+            // Logika Titik-titik (...) jika halaman sangat banyak
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                html += `<button onclick="changePage(1)" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">1</button>`;
+                if (startPage > 2) html += `<span class="px-2 text-gray-400 font-bold tracking-widest">...</span>`;
+            }
+
+            // Loop Angka Halaman
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    // Halaman Aktif (Warna Hijau Primary)
+                    html += `<button class="w-10 h-10 rounded-2xl bg-primary text-white font-extrabold shadow-md flex items-center justify-center transform scale-110">${i}</button>`;
+                } else {
+                    html += `<button onclick="changePage(${i})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${i}</button>`;
+                }
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="px-2 text-gray-400 font-bold tracking-widest">...</span>`;
+                html += `<button onclick="changePage(${totalPages})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${totalPages}</button>`;
+            }
+
+            // Tombol "Selanjutnya"
+            html += `<button onclick="changePage(${currentPage + 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentPage === totalPages ? 'disabled' : ''}><i class="fa-solid fa-chevron-right"></i></button>`;
+
+            paginationContainer.innerHTML = html;
         }
 
-        function clearBulkSelection() {
-            selectedBulkIds = [];
-            document.querySelectorAll('.bulk-checkbox').forEach(cb => cb.checked = false);
-            updateBulkActionBar();
-        }
-
-        function editStatus(id) {
-            document.getElementById('admin-status-ids').value = JSON.stringify([id]);
-            const r = state.requests.find(x => x.id == id);
-            document.getElementById('admin-status-value').value = r.hasil;
-            document.getElementById('admin-status-catatan').value = r.catatan || '';
-            document.getElementById('bulk-warning-msg').classList.add('hidden');
-            openModal('modal-admin-status');
-        }
-
-        function editBulkStatus() {
-            document.getElementById('admin-status-ids').value = JSON.stringify(selectedBulkIds);
-            document.getElementById('admin-status-value').value = 'SUDAH MCU, MENUNGGU HASIL'; 
-            document.getElementById('admin-status-catatan').value = '';
-            document.getElementById('bulk-warning-msg').classList.remove('hidden');
-            openModal('modal-admin-status');
+        // FUNGSI GANTI HALAMAN
+        function changePage(page) {
+            currentPage = page;
+            renderDataMedical();
+            // Scroll otomatis naik perlahan ke arah kotak pencarian agar user nyaman
+            document.getElementById('title-data-medical').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function editPDF(id) {
