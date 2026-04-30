@@ -450,7 +450,13 @@
         <!-- ==================== KELOLA PENGAJUAN ADMIN DENGAN PAGINATION ==================== -->
         <section id="view-kelola-pengajuan" class="w-full max-w-6xl px-4 hidden-view relative z-10">
             <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.04)] border border-gray-50">
-                <h2 class="text-3xl font-extrabold text-primary mb-8 tracking-tight"><i class="fa-solid fa-list-check mr-2 opacity-50"></i> Kelola Pengajuan Masuk</h2>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <h2 class="text-3xl font-extrabold text-primary tracking-tight"><i class="fa-solid fa-list-check mr-2 opacity-50"></i> Kelola Pengajuan Masuk</h2>
+                    <!-- Tombol Manual Input (Hanya tampil untuk admin) -->
+                    <button id="btn-add-manual" onclick="openManualCandidate()" class="hidden bg-primary hover:bg-secondary text-white px-5 py-3 rounded-2xl font-bold shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-1 items-center">
+                        <i class="fa-solid fa-user-plus mr-2"></i> Tambah Kandidat Baru
+                    </button>
+                </div>
                 <div id="kelola-pengajuan-container" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                 <!-- Pagination untuk Kelola Pengajuan -->
                 <div id="pagination-kelola-container" class="mt-10 flex justify-center items-center gap-2 flex-wrap pb-2"></div>
@@ -568,6 +574,110 @@
             <div class="flex gap-4 justify-end">
                 <button onclick="closeModal('modal-syarat-jepang')" class="bg-bglight border border-gray-200 text-gray-600 hover:bg-gray-100 px-6 py-3.5 rounded-xl text-sm font-bold transition-colors">Tutup</button>
                 <button onclick="processSubmitJP()" class="bg-primary hover:bg-secondary text-white px-8 py-3.5 rounded-xl text-sm font-bold shadow-lg transition-transform transform hover:-translate-y-1" id="btn-kirim-jp">Kirim Pengajuan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH KANDIDAT MANUAL (ADMIN) -->
+    <div id="modal-admin-add-candidate" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center fade-in">
+        <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-2xl w-full mx-4 border border-white/20 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4 shrink-0">
+                <h3 class="text-2xl font-extrabold text-primary tracking-tight"><i class="fa-solid fa-user-plus text-accent mr-2"></i> Input Data Histori</h3>
+                <button onclick="closeModal('modal-admin-add-candidate')" class="text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="overflow-y-auto pr-2 custom-scrollbar flex-grow space-y-5 mb-6">
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 mb-4">
+                    <p class="text-xs font-medium text-blue-800 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i> Gunakan form ini untuk memasukkan data siswa yang MCU sebelum aplikasi ini digunakan (Januari - Maret) atau input manual darurat. Data akan langsung disetujui.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Nama Lengkap</label>
+                        <input type="text" id="manual-nama" oninput="formatNamaEYD(this)" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none" placeholder="Sesuai KTP">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Nomor Telepon</label>
+                        <input type="text" id="manual-hp" oninput="validateHP(this)" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none" placeholder="08xxxxxxxx">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Tanggal Lahir</label>
+                        <input type="date" id="manual-tgl-lahir" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Tujuan Penempatan</label>
+                        <div class="relative">
+                            <select id="manual-target" onchange="toggleManualTarget()" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none appearance-none cursor-pointer">
+                                <option value="jepang">Jepang</option>
+                                <option value="taiwan">Taiwan</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Khusus Jepang -->
+                    <div id="manual-jp-fields" class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Alamat Lengkap</label>
+                            <textarea id="manual-alamat" rows="2" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Nama Kumiai</label>
+                            <input type="text" id="manual-kumiai" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none" placeholder="Opsional">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px w-full bg-gray-100 my-2"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Jenis Pemeriksaan</label>
+                        <div class="relative">
+                            <select id="manual-jenis" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none appearance-none cursor-pointer">
+                                <option value="MCU PRA">MCU PRA (Siswa Baru)</option>
+                                <option value="MCU FULL">MCU FULL (Lolos Mensetsu/Matching)</option>
+                                <option value="MCU AKHIR">MCU AKHIR (COE Terbit)</option>
+                                <option value="IGRA">IGRA (Khusus Supa ASE)</option>
+                                <option value="VAKSIN CAMPAK">VAKSIN CAMPAK (Fukutomo)</option>
+                                <option value="LAIN-LAIN">LAIN-LAIN (Periksa kembali)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Tanggal MCU (Pelaksanaan)</label>
+                        <input type="date" id="manual-tgl-mcu" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Keputusan Medis</label>
+                        <div class="relative">
+                            <select id="manual-hasil" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-bold outline-none appearance-none cursor-pointer">
+                                <option value="FIT">FIT (Lolos)</option>
+                                <option value="FIT WITH NOTE">FIT WITH NOTE (Perlu Perhatian)</option>
+                                <option value="UNFIT">UNFIT (Gagal)</option>
+                                <option value="SUDAH MCU, MENUNGGU HASIL">Sudah MCU, Tunggu Hasil</option>
+                                <option value="BELUM">Belum Ada Hasil</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Catatan Dokter</label>
+                        <textarea id="manual-catatan" rows="2" class="w-full p-3.5 bg-bglight border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary text-sm font-medium outline-none placeholder-gray-400"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 justify-end shrink-0 pt-4 border-t border-gray-100">
+                <button onclick="closeModal('modal-admin-add-candidate')" class="bg-bglight border border-gray-200 text-gray-600 hover:bg-gray-100 px-6 py-3.5 rounded-xl text-sm font-bold transition-colors">Batal</button>
+                <button onclick="saveManualCandidate()" id="btn-kirim-manual" class="bg-primary hover:bg-secondary text-white px-8 py-3.5 rounded-xl text-sm font-bold shadow-lg transition-transform transform hover:-translate-y-1">Simpan Histori</button>
             </div>
         </div>
     </div>
@@ -723,7 +833,6 @@
         </div>
     </div>
 
-    <!-- Script Utama -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyCHQE-8nno6wabsqlC_R0clkgtuBoE8yhNTjgk800RwdSNG8UskDcpmmGgQnk18uS6JA/exec";
         const adminCreds = { u: 'adminmcuyonasindo', p: 'admin321' };
@@ -740,7 +849,7 @@
         
         // VARIABEL GLOBAL UNTUK PAGINATION
         let currentPage = 1;
-        let currentKelolaPage = 1; // Tambahan untuk Kelola Pengajuan
+        let currentKelolaPage = 1; 
         const itemsPerPage = 10;
 
         async function fetchAPI(action, payload = {}) {
@@ -1052,18 +1161,23 @@
             document.getElementById('dash-student-alert').classList.add('hidden');
             document.getElementById('widget-news').classList.remove('hidden'); 
             document.getElementById('btn-add-news').classList.add('hidden');
+            document.getElementById('btn-add-manual').classList.add('hidden');
             const info = document.getElementById('info-penyakit');
             
             if(role === 'admin') {
                 document.getElementById('dash-admin-greet').classList.remove('hidden');
                 document.getElementById('dash-admin-greet').innerHTML = `<p class="font-bold text-white"><i class="fa-solid fa-crown text-yellow-400 mr-2"></i> Mode Admin Aktif</p><p class="text-xs text-white/80 mt-1">Selamat datang kembali di pusat kendali medical.</p>`;
                 document.getElementById('btn-add-news').classList.remove('hidden');
+                document.getElementById('btn-add-manual').classList.remove('hidden');
+                document.getElementById('btn-add-manual').classList.add('flex');
                 renderNews(true);
                 info.innerHTML = "<div class='flex items-center justify-center h-32'><p class='italic text-gray-400 font-medium'><i class='fa-solid fa-shield-halved mr-2 text-xl'></i>Mode Pengawasan Admin Aktif.</p></div>";
             } else if(role === 'staff') {
                 document.getElementById('dash-admin-greet').classList.remove('hidden');
                 document.getElementById('dash-admin-greet').innerHTML = `<p class="font-bold text-white"><i class="fa-solid fa-eye text-blue-400 mr-2"></i> Mode Staff (Viewer)</p><p class="text-xs text-white/80 mt-1">Akses pemantauan hasil MCU dan kalender.</p>`;
                 document.getElementById('btn-add-news').classList.add('hidden');
+                document.getElementById('btn-add-manual').classList.add('hidden');
+                document.getElementById('btn-add-manual').classList.remove('flex');
                 renderNews(false);
                 info.innerHTML = "<div class='flex items-center justify-center h-32'><p class='italic text-gray-400 font-medium'><i class='fa-solid fa-users-viewfinder mr-2 text-xl'></i>Akses Pemantauan Staff Aktif.</p></div>";
             } else if(role === 'siswa_jepang') {
@@ -1527,6 +1641,82 @@
             await refreshDataAndUI("Status pengajuan berhasil diperbarui!");
         }
 
+        // --- TAMBAH KANDIDAT MANUAL (HISTORI) ---
+        function toggleManualTarget() {
+            const tgt = document.getElementById('manual-target').value;
+            if(tgt === 'jepang') {
+                document.getElementById('manual-jp-fields').classList.remove('hidden');
+            } else {
+                document.getElementById('manual-jp-fields').classList.add('hidden');
+            }
+        }
+
+        function openManualCandidate() {
+            document.getElementById('manual-nama').value = '';
+            document.getElementById('manual-hp').value = '';
+            document.getElementById('manual-tgl-lahir').value = '';
+            document.getElementById('manual-target').value = 'jepang';
+            document.getElementById('manual-alamat').value = '';
+            document.getElementById('manual-kumiai').value = '';
+            document.getElementById('manual-jenis').value = 'MCU PRA';
+            document.getElementById('manual-tgl-mcu').value = '';
+            document.getElementById('manual-hasil').value = 'FIT';
+            document.getElementById('manual-catatan').value = '';
+            toggleManualTarget();
+            openModal('modal-admin-add-candidate');
+        }
+
+        async function saveManualCandidate() {
+            const nama = document.getElementById('manual-nama').value.trim();
+            const hp = document.getElementById('manual-hp').value.trim();
+            const tglLahir = document.getElementById('manual-tgl-lahir').value;
+            const target = document.getElementById('manual-target').value;
+            const alamat = document.getElementById('manual-alamat').value;
+            const kumiai = document.getElementById('manual-kumiai').value;
+            const jenis = document.getElementById('manual-jenis').value;
+            const tglMcu = document.getElementById('manual-tgl-mcu').value;
+            const hasil = document.getElementById('manual-hasil').value;
+            const catatan = document.getElementById('manual-catatan').value;
+
+            if(!nama || !hp || !tglMcu) {
+                showAlert("Peringatan", "Nama, Nomor HP, dan Tanggal MCU wajib diisi!");
+                return;
+            }
+
+            const btn = document.getElementById('btn-kirim-manual');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Menyimpan...';
+            btn.disabled = true;
+
+            const payload = {
+                id: Date.now(),
+                userId: 'manual_' + Date.now(), 
+                nama: nama,
+                hp: hp,
+                target: target,
+                alamat: target === 'jepang' ? alamat : '-',
+                kumiai: target === 'jepang' ? kumiai : '-',
+                jenis: target === 'jepang' ? jenis : 'MCU TAIWAN',
+                tglLahir: tglLahir,
+                tglReq: tglMcu, 
+                tglEst: tglMcu, 
+                status: 'Disetujui', 
+                hasil: hasil,
+                catatan: catatan,
+                pdfLink: ''
+            };
+
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('loader-text').innerHTML = "MENYIMPAN HISTORI...<br><span class='text-[10px] font-medium text-gray-500 tracking-normal mt-2 block'>(Mohon tunggu sebentar)</span>";
+
+            await fetchAPI('saveRequest', payload);
+            
+            btn.innerHTML = 'Simpan Histori';
+            btn.disabled = false;
+            closeModal('modal-admin-add-candidate');
+            
+            await refreshDataAndUI("Histori kandidat berhasil ditambahkan secara manual!");
+        }
+
         // --- HASIL & UPLOAD PDF ---
         function switchTabHasil(t, b) {
             document.getElementById('tab-hasil-saya').classList.add('hidden');
@@ -1657,7 +1847,6 @@
             openModal('modal-admin-status');
         }
 
-        // FUNGSI HANDLE SEARCH UNTUK MERESET HALAMAN KE 1 SAAT MENCARI
         function handleSearch() {
             currentPage = 1;
             renderDataMedical();
@@ -1672,7 +1861,6 @@
             const qDate = document.getElementById('search-date').value;
             const role = state.currentUser.role;
             
-            // Urutkan data terbaru di atas
             let data = [...state.requests].reverse().filter(r => r.status === 'Disetujui');
             
             if(role === 'siswa_jepang') data = data.filter(r => r.target === 'jepang');
@@ -1687,7 +1875,6 @@
                 return;
             }
 
-            // LOGIKA PAGINATION (MEMOTONG DATA SESUAI HALAMAN)
             const totalPages = Math.ceil(data.length / itemsPerPage);
             if (currentPage > totalPages) currentPage = totalPages;
             
@@ -1801,11 +1988,9 @@
                 `;
             });
             
-            // RENDER TOMBOL PAGINATION
             renderPaginationControls(totalPages);
         }
 
-        // FUNGSI UNTUK MERENDER TOMBOL-TOMBOL HALAMAN (1, 2, 3...)
         function renderPaginationControls(totalPages) {
             const paginationContainer = document.getElementById('pagination-container');
             if (totalPages <= 1) {
@@ -1814,11 +1999,8 @@
             }
 
             let html = '';
-            
-            // Tombol "Sebelumnya"
             html += `<button onclick="changePage(${currentPage - 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentPage === 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i></button>`;
 
-            // Logika Titik-titik (...) jika halaman sangat banyak
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, currentPage + 2);
 
@@ -1827,10 +2009,8 @@
                 if (startPage > 2) html += `<span class="px-2 text-gray-400 font-bold tracking-widest">...</span>`;
             }
 
-            // Loop Angka Halaman
             for (let i = startPage; i <= endPage; i++) {
                 if (i === currentPage) {
-                    // Halaman Aktif (Warna Hijau Primary)
                     html += `<button class="w-10 h-10 rounded-2xl bg-primary text-white font-extrabold shadow-md flex items-center justify-center transform scale-110">${i}</button>`;
                 } else {
                     html += `<button onclick="changePage(${i})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${i}</button>`;
@@ -1842,17 +2022,14 @@
                 html += `<button onclick="changePage(${totalPages})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary font-bold transition-all shadow-sm flex items-center justify-center transform hover:-translate-y-0.5">${totalPages}</button>`;
             }
 
-            // Tombol "Selanjutnya"
             html += `<button onclick="changePage(${currentPage + 1})" class="w-10 h-10 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:text-primary hover:border-primary transition-all shadow-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transform hover:-translate-y-0.5" ${currentPage === totalPages ? 'disabled' : ''}><i class="fa-solid fa-chevron-right"></i></button>`;
 
             paginationContainer.innerHTML = html;
         }
 
-        // FUNGSI GANTI HALAMAN
         function changePage(page) {
             currentPage = page;
             renderDataMedical();
-            // Scroll otomatis naik perlahan ke arah kotak pencarian agar user nyaman
             document.getElementById('title-data-medical').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
